@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ChevronDown } from 'lucide-react';
 
 export default function ContactPage() {
   return (
@@ -99,12 +99,15 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">Inquiry Type</label>
-                    <select className="form-input appearance-none">
-                      <option>Buy a Property</option>
-                      <option>Schedule a Site Visit</option>
-                      <option>General Inquiry</option>
-                      <option>Careers</option>
-                    </select>
+                    <div className="relative">
+                      <select className="form-input appearance-none pr-10">
+                        <option>Buy a Property</option>
+                        <option>Schedule a Site Visit</option>
+                        <option>General Inquiry</option>
+                        <option>Careers</option>
+                      </select>
+                      <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-charcoal-muted pointer-events-none" />
+                    </div>
                   </div>
                 </div>
 
