@@ -22,34 +22,59 @@ export default function PropertyDetailsPage() {
 
   return (
     <div className="min-h-screen pb-24 pt-28">
-      {/* Back */}
-      <div className="container mx-auto px-6 mb-8">
-        <Link to="/properties" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-charcoal-muted hover:text-gold transition-colors">
+      {/* Back & Breadcrumb */}
+      <div className="container mx-auto px-6 mb-6">
+        <Link to="/properties" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-charcoal-muted hover:text-gold transition-colors">
           <ArrowLeft size={14} /> Back to Properties
         </Link>
       </div>
 
+      {/* Header: Title & Price */}
+      <div className="container mx-auto px-6 mb-8">
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col md:flex-row justify-between md:items-end gap-6 border-b border-black/5 pb-6">
+          <div className="flex-1 space-y-3">
+            <div className="flex items-center gap-3">
+              <span className="gold-chip">{property.status}</span>
+              <span className="text-[10px] uppercase tracking-widest font-bold text-charcoal-muted">{property.type}</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-charcoal leading-tight">{property.title}</h1>
+            <div className="flex items-center gap-2 text-charcoal-muted mt-2">
+              <MapPin size={18} className="text-gold" />
+              <span className="text-lg font-light">{property.location}</span>
+            </div>
+          </div>
+          <div className="md:text-right shrink-0">
+            <div className="text-sm font-bold uppercase tracking-widest text-charcoal-muted mb-1">Asking Price</div>
+            <div className="text-4xl md:text-5xl font-serif font-medium text-gold">{property.price}</div>
+          </div>
+        </motion.div>
+      </div>
+
       {/* Gallery */}
-      <div className="container mx-auto px-6 mb-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4" style={{ height: '55vh', minHeight: '420px' }}>
-          <div className="lg:col-span-2 relative h-full">
+      <div className="container mx-auto px-6 mb-16">
+        <div className="flex flex-col gap-4">
+          {/* Main Cinematic Image */}
+          <div className="w-full aspect-[16/9] md:aspect-[21/9] bg-ivory-100 rounded-2xl overflow-hidden relative shadow-[0_8px_32px_rgba(0,0,0,0.06)] border border-black/5">
             <img
               src={property.gallery[activeImage] || property.image}
               alt={property.title}
-              className="w-full h-full object-cover rounded-2xl shadow-sm"
+              className="w-full h-full object-cover transition-opacity duration-300"
             />
-            <div className="absolute top-4 left-4 gold-chip">{property.status}</div>
           </div>
-          <div className="hidden lg:flex flex-col gap-3 h-full overflow-y-auto custom-scrollbar pr-1">
+          
+          {/* Thumbnails Strip */}
+          <div className="flex gap-3 overflow-x-auto custom-scrollbar pb-2">
             {property.gallery.map((img, i) => (
               <button
                 key={i}
                 onClick={() => setActiveImage(i)}
-                className={`relative shrink-0 h-[calc(33%-6px)] w-full overflow-hidden rounded-xl border-2 transition-all duration-200 ${
-                  activeImage === i ? 'border-gold shadow-[0_0_0_2px_rgba(184,134,11,0.2)]' : 'border-transparent opacity-75 hover:opacity-100'
+                className={`relative shrink-0 w-32 md:w-40 aspect-[4/3] overflow-hidden rounded-xl border-2 transition-all duration-200 ${
+                  activeImage === i 
+                    ? 'border-gold shadow-[0_4px_12px_rgba(184,134,11,0.2)]' 
+                    : 'border-transparent opacity-60 hover:opacity-100'
                 }`}
               >
-                <img src={img} alt={`Gallery ${i}`} className="w-full h-full object-cover" />
+                <img src={img} alt={`Gallery thumbnail ${i}`} className="w-full h-full object-cover" />
               </button>
             ))}
           </div>
@@ -60,25 +85,8 @@ export default function PropertyDetailsPage() {
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
-          {/* Main */}
+          {/* Main Details */}
           <div className="lg:col-span-2 space-y-10">
-
-            {/* Title + Price */}
-            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
-              <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
-                <div className="flex-1">
-                  <div className="inline-block mb-3 gold-chip">{property.type}</div>
-                  <h1 className="text-4xl md:text-5xl font-serif font-medium text-charcoal leading-tight">{property.title}</h1>
-                </div>
-                <div className="md:text-right shrink-0">
-                  <div className="text-4xl font-serif font-medium text-gold">{property.price}</div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-charcoal-muted">
-                <MapPin size={18} className="text-gold" />
-                <span className="text-lg">{property.location}</span>
-              </div>
-            </motion.div>
 
             {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-4">
