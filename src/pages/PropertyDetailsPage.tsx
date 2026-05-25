@@ -142,13 +142,13 @@ export default function PropertyDetailsPage() {
 
               <div className="mt-8 pt-6 border-t border-black/5 space-y-3">
                 <a
-                  href="tel:+919166798906"
+                  href="tel:+918442083670"
                   className="btn-outline w-full justify-center"
                 >
                   <Phone size={15} /> Call Us Now
                 </a>
                 <a
-                  href="https://wa.me/919166798906"
+                  href="https://wa.me/918442083670"
                   target="_blank"
                   rel="noreferrer"
                   className="flex items-center justify-center gap-2 w-full py-3.5 px-6 bg-[#25D366] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#128C7E] transition-colors"

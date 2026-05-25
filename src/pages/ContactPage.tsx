@@ -45,7 +45,7 @@ export default function ContactPage() {
                 {
                   icon: <Phone size={18} />,
                   title: 'Phone',
-                  content: '+91 91667 98906\n+91 94608 02222',
+                  content: '+91 84420 83670\n+91 94608 02222',
                 },
                 {
                   icon: <Mail size={18} />,

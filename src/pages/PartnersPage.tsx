@@ -82,7 +82,7 @@ export default function PartnersPage() {
             {/* Contact */}
             <div className="space-y-2.5 mb-7 text-sm">
               {[
-                { icon: <Phone size={14} />, label: 'Mobile', value: '+91 91667 98906' },
+                { icon: <Phone size={14} />, label: 'Mobile', value: '+91 84420 83670' },
                 { icon: <Building size={14} />, label: 'Office', value: '+91 94608 02222' },
                 { icon: <Mail size={14} />, label: 'Email', value: 'ngbuild@gmail.com' },
               ].map(c => (
@@ -96,11 +96,11 @@ export default function PartnersPage() {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href="tel:+919166798906" className="btn-outline flex-1 justify-center">
+              <a href="tel:+918442083670" className="btn-outline flex-1 justify-center">
                 <Phone size={14} /> Call Now
               </a>
               <a
-                href="https://wa.me/919166798906"
+                href="https://wa.me/918442083670"
                 target="_blank"
                 rel="noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 py-3 px-5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-full hover:bg-[#128C7E] transition-colors"
@@ -111,6 +111,62 @@ export default function PartnersPage() {
 
           </div>
         </motion.div>
+
+        {/* Co-Directors Section */}
+        <div className="mt-20">
+          <div className="text-center mb-10">
+            <h3 className="text-3xl font-serif font-medium text-charcoal">Co-Directors</h3>
+            <div className="w-12 h-1 bg-gold rounded-full mx-auto mt-4" />
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Jitender Kataria */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="bg-white rounded-xl border border-black/6 shadow-sm hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] overflow-hidden flex flex-col sm:flex-row transition-all"
+            >
+              <div className="sm:w-2/5 relative min-h-[240px] sm:min-h-0 flex-shrink-0 bg-ivory-50 border-b sm:border-b-0 sm:border-r border-black/6">
+                <img
+                  src="/jitender-kataria.png"
+                  alt="Jitender Kataria"
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                />
+              </div>
+              <div className="sm:w-3/5 p-6 flex flex-col justify-center">
+                <h3 className="text-2xl font-serif font-medium text-charcoal mb-1">Jitender Kataria</h3>
+                <p className="text-gold text-[9px] uppercase tracking-widest font-bold mb-4">Co-Director</p>
+                
+                <p className="text-charcoal-muted text-xs leading-relaxed font-light mb-5">
+                  Driving innovation and operational excellence to ensure every AngGroup project meets the highest standards of luxury, transparency, and architectural brilliance.
+                </p>
+
+                <div className="space-y-2 text-xs mb-5">
+                  <div className="flex items-center gap-3 text-charcoal-muted">
+                    <span className="text-gold"><Phone size={12} /></span>
+                    <span className="font-medium text-charcoal">+91 79769 23208</span>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <a href="tel:+917976923208" className="btn-outline flex-1 justify-center py-2 text-[10px]">
+                    <Phone size={12} /> Call
+                  </a>
+                  <a
+                    href="https://wa.me/917976923208"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-full hover:bg-[#128C7E] transition-colors"
+                  >
+                    <MessageCircle size={12} /> WhatsApp
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
       </div>
     </div>
   );

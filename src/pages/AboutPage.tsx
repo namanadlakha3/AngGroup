@@ -72,7 +72,16 @@ export default function AboutPage() {
       {/* Founder Section */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="section-label justify-center mb-5">
+              <span>Leadership</span>
+            </p>
+            <h2 className="text-4xl md:text-5xl font-serif font-medium text-charcoal leading-tight">
+              Our Directors
+            </h2>
+          </div>
+
+          <div className="max-w-4xl mx-auto mb-16">
             <div className="flex flex-col md:flex-row items-stretch bg-white rounded-2xl border border-black/6 shadow-[0_4px_32px_rgba(0,0,0,0.06)] overflow-hidden">
               {/* Photo — Solid ivory background image from AI */}
               <div className="md:w-2/5 relative min-h-[280px] md:min-h-0 flex-shrink-0 bg-ivory-50 border-r border-black/6">
@@ -85,9 +94,6 @@ export default function AboutPage() {
 
               {/* Content */}
               <div className="md:w-3/5 p-7 md:p-10 flex flex-col justify-center space-y-4">
-                <p className="section-label justify-start">
-                  <span>Founder's Message</span>
-                </p>
                 <h2 className="text-2xl md:text-3xl font-serif font-medium text-charcoal leading-tight">
                   Gopal Singh
                 </h2>
@@ -102,10 +108,36 @@ export default function AboutPage() {
               </div>
             </div>
           </div>
+
+          {/* Co-Directors */}
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Jitender Kataria Card */}
+              <div className="flex flex-col sm:flex-row items-stretch bg-white rounded-xl border border-black/6 shadow-sm hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] transition-all overflow-hidden">
+                <div className="sm:w-2/5 relative min-h-[200px] sm:min-h-0 flex-shrink-0 bg-ivory-50 border-b sm:border-b-0 sm:border-r border-black/6">
+                  <img
+                    src="/jitender-kataria.png"
+                    alt="Jitender Kataria – Co-Director"
+                    className="absolute inset-0 w-full h-full object-cover object-top"
+                  />
+                </div>
+                <div className="sm:w-3/5 p-6 flex flex-col justify-center space-y-3">
+                  <h3 className="text-xl font-serif font-medium text-charcoal leading-tight">
+                    Jitender Kataria
+                  </h3>
+                  <p className="text-gold font-bold text-[9px] uppercase tracking-widest">Co-Director</p>
+                  <div className="w-8 h-px bg-gold/50" />
+                  <p className="text-charcoal-muted text-xs font-light leading-relaxed">
+                    Driving innovation and operational excellence to ensure every AngGroup project meets the highest standards of luxury and quality.
+                  </p>
+                </div>
+              </div>
+              
+              {/* Future Co-directors can be added here */}
+            </div>
+          </div>
         </div>
       </section>
-
-
       {/* Differentiators */}
       <section className="py-20 md:py-28 bg-ivory-100">
         <div className="container mx-auto px-6">
