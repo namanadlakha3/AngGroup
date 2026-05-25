@@ -87,36 +87,28 @@ export default function Hero() {
           >
             <div className="flex-1 border-b md:border-b-0 md:border-r border-black/8 px-6 py-4">
               <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">Location</label>
-              <input 
-                type="text" 
-                placeholder="Search Jaipur areas..." 
-                className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none placeholder-charcoal/40"
-              />
+              <select className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none appearance-none cursor-pointer">
+                <option>Jaipur Properties</option>
+              </select>
             </div>
-            <div className="flex-1 border-b md:border-b-0 md:border-r border-black/8 px-6 py-4 relative">
+            <div className="flex-1 border-b md:border-b-0 md:border-r border-black/8 px-6 py-4">
               <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">Property Type</label>
-              <div className="relative">
-                <select className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none appearance-none cursor-pointer pr-8">
-                  <option>Plot</option>
-                  <option>House / Villa</option>
-                  <option>Apartment</option>
-                  <option>Farmhouse</option>
-                </select>
-                <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-charcoal/50 pointer-events-none" />
-              </div>
+              <select className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none appearance-none cursor-pointer">
+                <option>Plot</option>
+                <option>House</option>
+                <option>Apartment</option>
+                <option>Farmhouse</option>
+              </select>
             </div>
-            <div className="flex-1 px-6 py-4 relative">
+            <div className="flex-1 px-6 py-4">
               <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">Budget</label>
-              <div className="relative">
-                <select className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none appearance-none cursor-pointer pr-8">
-                  <option>Any Budget</option>
-                  <option>Under ₹100L</option>
-                  <option>₹100L – ₹250L</option>
-                  <option>₹250L – ₹500L</option>
-                  <option>₹500L+</option>
-                </select>
-                <ChevronDown size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-charcoal/50 pointer-events-none" />
-              </div>
+              <select className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none appearance-none cursor-pointer">
+                <option>Select Range</option>
+                <option>Under ₹100L</option>
+                <option>₹100L – ₹250L</option>
+                <option>₹250L – ₹500L</option>
+                <option>₹500L+</option>
+              </select>
             </div>
             <button
               type="submit"

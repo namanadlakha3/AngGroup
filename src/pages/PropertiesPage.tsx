@@ -61,7 +61,7 @@ export default function PropertiesPage() {
               placeholder="Search location or property..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              className="form-input pl-10 rounded-full"
+              className="form-input !pl-10 rounded-full"
             />
           </div>
         </div>
