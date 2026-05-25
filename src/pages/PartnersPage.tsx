@@ -82,7 +82,7 @@ export default function PartnersPage() {
             {/* Contact */}
             <div className="space-y-2.5 mb-7 text-sm">
               {[
-                { icon: <Phone size={14} />, label: 'Mobile', value: '+91 91667 98906' },
+                { icon: <Phone size={14} />, label: 'Mobile', value: '+91 84420 83670' },
                 { icon: <Building size={14} />, label: 'Office', value: '+91 94608 02222' },
                 { icon: <Mail size={14} />, label: 'Email', value: 'ngbuild@gmail.com' },
               ].map(c => (
@@ -96,11 +96,11 @@ export default function PartnersPage() {
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href="tel:+919166798906" className="btn-outline flex-1 justify-center">
+              <a href="tel:+918442083670" className="btn-outline flex-1 justify-center">
                 <Phone size={14} /> Call Now
               </a>
               <a
-                href="https://wa.me/919166798906"
+                href="https://wa.me/918442083670"
                 target="_blank"
                 rel="noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 py-3 px-5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-full hover:bg-[#128C7E] transition-colors"

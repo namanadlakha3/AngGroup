@@ -22,14 +22,14 @@ export default function MobileStickyActions() {
       <div className="h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
       <div className="bg-charcoal flex justify-around items-center shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
         <a
-          href="tel:+919166798906"
+          href="tel:+918442083670"
           className="flex flex-col items-center justify-center py-3.5 flex-1 text-white/70 hover:text-gold transition-colors border-r border-white/8 text-center"
         >
           <Phone size={20} className="mb-1" />
           <span className="text-[9px] uppercase tracking-widest font-bold">Call</span>
         </a>
         <a
-          href="https://wa.me/919166798906"
+          href="https://wa.me/918442083670"
           target="_blank"
           rel="noreferrer"
           className="flex flex-col items-center justify-center py-3.5 flex-1 text-white/70 hover:text-green-400 transition-colors border-r border-white/8 text-center"
