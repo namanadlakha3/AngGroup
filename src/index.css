@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", "Playfair Display", serif;
+  --font-sans: "Jost", sans-serif;
+  --font-heading: "Jost", sans-serif;
+
+  /* Backgrounds */
+  --color-ivory-50: #FDFCF8;
+  --color-ivory-100: #FAF8F2;
+  --color-ivory-200: #F4F0E8;
+
+  /* Text */
+  --color-charcoal: #1C1C1E;
+  --color-charcoal-light: #3A3A3C;
+  --color-charcoal-muted: #6C6C70;
+
+  /* Gold Accents */
+  --color-gold: #B8860B;
+  --color-gold-light: #D4A017;
+  --color-gold-pale: #F5E6C8;
+  --color-gold-glow: #E8C96A;
+
+  /* Legacy aliases */
+  --color-brand-espresso: #1C1C1E;
+  --color-brand-caramel: #B8860B;
+  --color-brand-caramel-muted: #D4A017;
+  --color-brand-white: #FDFCF8;
+}
+
+@layer base {
+  html, body {
+    font-family: "Jost", sans-serif;
+    color: #1C1C1E;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-color: #FDFCF8;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(184,134,11,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(212,160,23,0.04) 0%, transparent 50%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Jost", sans-serif;
+    color: #1C1C1E;
+    font-weight: 500;
+  }
+}
+
+/* ─────────────────────────────────────────── */
+/*  DESIGN SYSTEM COMPONENTS                  */
+/* ─────────────────────────────────────────── */
+
+/* Gradient Text */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #B8860B 0%, #E8C96A 50%, #D4A017 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glass Panel ─────────────────────────── */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(184, 134, 11, 0.14);
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03), 0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.9);
+}
+
+/* ─── Glass Card ──────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(184, 134, 11, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+  transition: all 0.3s ease;
+}
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(184, 134, 11, 0.25);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.04), 0 12px 40px rgba(184,134,11,0.08), inset 0 1px 0 rgba(255,255,255,1);
+  transform: translateY(-2px);
+}
+
+/* ─── Property Card ───────────────────────── */
+.property-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.property-card:hover {
+  box-shadow: 0 8px 24px rgba(184,134,11,0.12), 0 16px 48px rgba(0,0,0,0.08);
+  transform: translateY(-4px);
+  border-color: rgba(184,134,11,0.2);
+}
+
+/* ─── Buttons ─────────────────────────────── */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #B8860B 0%, #D4A017 100%);
+  color: white;
+  font-family: "Jost", sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(184,134,11,0.28);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.btn-gold:hover {
+  background: linear-gradient(135deg, #9A7009 0%, #B8860B 100%);
+  box-shadow: 0 8px 30px rgba(184,134,11,0.38);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: #1C1C1E;
+  font-family: "Jost", sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 13px 32px;
+  border-radius: 50px;
+  border: 1.5px solid rgba(28,28,30,0.25);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.btn-outline:hover {
+  border-color: #B8860B;
+  color: #B8860B;
+}
+
+/* Legacy aliases */
+.glass-button-gold { 
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #B8860B 0%, #D4A017 100%);
+  color: white;
+  font-family: "Jost", sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(184,134,11,0.28);
+  transition: all 0.3s ease;
+}
+.glass-button-gold:hover {
+  background: linear-gradient(135deg, #9A7009 0%, #B8860B 100%);
+  transform: translateY(-1px);
+}
+
+.glass-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  color: #1C1C1E;
+  font-family: "Jost", sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 13px 32px;
+  border-radius: 50px;
+  border: 1.5px solid rgba(28,28,30,0.25);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* ─── Gold Chip Badge ─────────────────────── */
+.gold-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 14px;
+  background: rgba(245, 230, 200, 0.9);
+  border: 1px solid rgba(184,134,11,0.3);
+  border-radius: 50px;
+  color: #8A6208;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+/* ─── Section Label ───────────────────────── */
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #B8860B;
+}
+.section-label::before,
+.section-label::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: #B8860B;
+  opacity: 0.45;
+  flex-shrink: 0;
+}
+
+/* ─── Form Input ──────────────────────────── */
+.form-input {
+  width: 100%;
+  background: #FDFCF8;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  font-family: "Jost", sans-serif;
+  color: #1C1C1E;
+  transition: all 0.2s;
+  outline: none;
+}
+.form-input:focus {
+  border-color: #B8860B;
+  box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
+  background: white;
+}
+
+/* ─── Gold Divider ────────────────────────── */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(184,134,11,0.4), transparent);
+}
+
+/* ─── Scrollbars ──────────────────────────── */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(184,134,11,0.3); border-radius: 2px; }
+
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
