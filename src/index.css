@@ -32,10 +32,8 @@
 
 @layer base {
   html, body {
-    font-family: "Jost", sans-serif;
     color: #1C1C1E;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
     background-color: #FDFCF8;
     background-image:
       radial-gradient(ellipse 80% 50% at 50% -10%, rgba(184,134,11,0.06) 0%, transparent 60%),
@@ -43,7 +41,7 @@
     background-attachment: fixed;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: "Jost", sans-serif;
+    font-family: "Cormorant Garamond", "Playfair Display", serif;
     color: #1C1C1E;
     font-weight: 500;
   }
@@ -88,19 +86,20 @@
   transform: translateY(-2px);
 }
 
-/* ─── Property Card ───────────────────────── */
+/* ─── Property Card ─────────────────── */
+/* Now purely a utility — card styling done inline per page */
 .property-card {
   background: white;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 4px 20px rgba(0,0,0,0.05);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid rgba(0,0,0,0.05);
 }
 .property-card:hover {
-  box-shadow: 0 8px 24px rgba(184,134,11,0.12), 0 16px 48px rgba(0,0,0,0.08);
-  transform: translateY(-4px);
-  border-color: rgba(184,134,11,0.2);
+  box-shadow: 0 12px 40px rgba(184,134,11,0.10), 0 4px 12px rgba(0,0,0,0.06);
+  transform: translateY(-3px);
+  border-color: rgba(184,134,11,0.18);
 }
 
 /* ─── Buttons ─────────────────────────────── */
@@ -117,7 +116,7 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 14px 32px;
-  border-radius: 50px;
+  border-radius: 4px;
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(184,134,11,0.28);
@@ -143,7 +142,7 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 13px 32px;
-  border-radius: 50px;
+  border-radius: 4px;
   border: 1.5px solid rgba(28,28,30,0.25);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -168,7 +167,7 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 14px 32px;
-  border-radius: 50px;
+  border-radius: 4px;
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(184,134,11,0.28);
@@ -192,26 +191,29 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 13px 32px;
-  border-radius: 50px;
+  border-radius: 4px;
   border: 1.5px solid rgba(28,28,30,0.25);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
-/* ─── Gold Chip Badge ─────────────────────── */
+/* ─── Gold Chip Badge ─────────────── */
 .gold-chip {
   display: inline-flex;
   align-items: center;
-  padding: 4px 14px;
-  background: rgba(245, 230, 200, 0.9);
-  border: 1px solid rgba(184,134,11,0.3);
-  border-radius: 50px;
-  color: #8A6208;
-  font-size: 0.62rem;
+  gap: 4px;
+  padding: 5px 12px;
+  background: rgba(252, 246, 232, 0.95);
+  border: 1px solid rgba(184,134,11,0.25);
+  border-radius: 4px;
+  color: #7A5500;
+  font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
 }
 
 /* ─── Section Label ───────────────────────── */
@@ -248,11 +250,33 @@
   color: #1C1C1E;
   transition: all 0.2s;
   outline: none;
+  box-sizing: border-box;
 }
 .form-input:focus {
   border-color: #B8860B;
   box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
   background: white;
+}
+
+/* ─── Search Input Wrapper ────────────────── */
+/* Use .search-input-wrap > svg + input pattern */
+.search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-wrap .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #6C6C70;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.search-wrap .form-input {
+  padding-left: 40px !important;
 }
 
 /* ─── Gold Divider ────────────────────────── */

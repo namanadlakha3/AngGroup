@@ -4,12 +4,14 @@ import { Menu, X } from 'lucide-react';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../ui/Logo';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === '/';
+  const { user, profile, signOut } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 60);
@@ -27,6 +29,7 @@ export default function Navbar() {
     { name: 'Partners', path: '/partners' },
     { name: 'About Us', path: '/about' },
     { name: 'Contact', path: '/contact' },
+    ...(profile?.role === 'admin' ? [{ name: 'Admin Dashboard', path: '/admin' }] : []),
   ];
 
   const solidNav = isScrolled || !isHome;
@@ -34,14 +37,14 @@ export default function Navbar() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50">
       <div className={clsx(
-        'transition-all duration-500',
+        'transition-all duration-500 w-full',
         solidNav
-          ? 'mx-4 md:mx-8 mt-3 rounded-2xl glass-panel px-6 py-3'
+          ? 'bg-charcoal/95 backdrop-blur-md border-b border-white/10 px-6 py-4'
           : 'container mx-auto px-6 py-6'
       )}>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center max-w-7xl mx-auto">
           <Link to="/" className="z-50">
-            <Logo className={solidNav ? 'text-charcoal' : 'text-white drop-shadow-lg'} />
+            <Logo className="text-white drop-shadow-lg" />
           </Link>
 
           {/* Desktop Nav */}
@@ -55,29 +58,41 @@ export default function Navbar() {
                   solidNav
                     ? location.pathname === link.path
                       ? 'text-gold'
-                      : 'text-charcoal/70 hover:text-charcoal'
+                      : 'text-white/85 hover:text-white'
                     : location.pathname === link.path
                       ? 'text-gold-glow'
                       : 'text-white/85 hover:text-white'
                 )}
               >
-                {link.name}
-                <span className={clsx(
-                  'absolute -bottom-1 left-0 h-px w-0 group-hover:w-full transition-all duration-300',
-                  solidNav ? 'bg-gold' : 'bg-gold-glow'
-                )} />
-              </Link>
-            ))}
-            <Link
-              to="/contact"
+              {link.name}
+              <span className={clsx(
+                'absolute -bottom-1 left-0 h-px w-0 group-hover:w-full transition-all duration-300',
+                solidNav ? 'bg-gold' : 'bg-gold-glow'
+              )} />
+            </Link>
+          ))}
+          {user ? (
+            <button
+              onClick={signOut}
               className={clsx(
                 'btn-gold text-xs py-2.5 px-6',
                 !solidNav && 'shadow-[0_4px_20px_rgba(0,0,0,0.25)]'
               )}
             >
-              Inquire Now
+              Sign Out
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className={clsx(
+                'text-xs font-semibold uppercase tracking-[0.12em] transition-colors duration-200',
+                solidNav ? 'text-white/85 hover:text-white' : 'text-white/85 hover:text-white'
+              )}
+            >
+              Login
             </Link>
-          </nav>
+          )}
+        </nav>
 
           {/* Mobile hamburger */}
           <button
@@ -132,9 +147,15 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navLinks.length * 0.07 }}
               >
-                <Link to="/contact" className="btn-gold mt-4">
-                  Inquire Now
-                </Link>
+                {user ? (
+                  <button onClick={signOut} className="btn-gold mt-4">
+                    Sign Out
+                  </button>
+                ) : (
+                  <Link to="/login" className="btn-gold mt-4">
+                    Login
+                  </Link>
+                )}
               </motion.div>
             </div>
           </motion.div>

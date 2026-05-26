@@ -1,1 +1,9 @@
-{"name": "anggroup"}
+{
+  "name": "anggroup",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
