@@ -1,9 +1,36 @@
 import { motion } from 'framer-motion';
 import { MapPin, ArrowRight, Bed, Bath, Square } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { mockProperties } from '../../data/mockProperties';
+import { useState, useEffect } from 'react';
+import { supabase } from '../../lib/supabase';
+import type { Property } from '../../types/property';
 
 export default function FeaturedProperties() {
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchFeatured() {
+      try {
+        const { data, error } = await supabase
+          .from('properties')
+          .select('*')
+          .limit(3);
+        
+        if (error) throw error;
+        if (data) setProperties(data);
+      } catch (err) {
+        console.error('Error fetching featured properties:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    
+    fetchFeatured();
+  }, []);
+
+  if (isLoading) return null;
+
   return (
     <section className="py-20 md:py-28">
       <div className="container mx-auto px-6">
@@ -29,7 +56,7 @@ export default function FeaturedProperties() {
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {mockProperties.slice(0, 3).map((property, i) => (
+          {properties.map((property, i) => (
             <motion.div
               key={property.id}
               initial={{ opacity: 0, y: 30 }}

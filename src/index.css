@@ -246,11 +246,33 @@
   color: #1C1C1E;
   transition: all 0.2s;
   outline: none;
+  box-sizing: border-box;
 }
 .form-input:focus {
   border-color: #B8860B;
   box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
   background: white;
+}
+
+/* ─── Search Input Wrapper ────────────────── */
+/* Use .search-input-wrap > svg + input pattern */
+.search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.search-wrap .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #6C6C70;
+  z-index: 1;
+  flex-shrink: 0;
+}
+.search-wrap .form-input {
+  padding-left: 40px !important;
 }
 
 /* ─── Gold Divider ────────────────────────── */
