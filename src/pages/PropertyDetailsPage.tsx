@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  MapPin, Bed, Bath, Square, Check, ArrowLeft, Phone,
+  MapPin, Bed, Bath, Check, ArrowLeft, Phone,
   MessageCircle, Ruler, IndianRupee, ChevronLeft, ChevronRight,
   X, Shield, Zap, Droplets, Car, Star, Home, Building2,
   Calendar, Compass, Tag, Sparkles

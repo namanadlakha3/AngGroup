@@ -103,12 +103,12 @@ export default function FeaturedProperties() {
                   </div>
 
                   <div className="mt-auto pt-4 border-t border-black/6 flex items-center gap-5">
-                    {property.bedrooms > 0 && (
+                    {(property.bedrooms ?? 0) > 0 && (
                       <span className="flex items-center gap-1.5 text-xs font-semibold text-charcoal-muted uppercase tracking-wider">
                         <Bed size={13} className="text-gold" /> {property.bedrooms}
                       </span>
                     )}
-                    {property.bathrooms > 0 && (
+                    {(property.bathrooms ?? 0) > 0 && (
                       <span className="flex items-center gap-1.5 text-xs font-semibold text-charcoal-muted uppercase tracking-wider">
                         <Bath size={13} className="text-gold" /> {property.bathrooms}
                       </span>

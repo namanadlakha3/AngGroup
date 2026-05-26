@@ -5,7 +5,7 @@ import {
   MapPin, Plus, Pencil, Trash2, X, Check, AlertCircle,
   Building2, Search, ChevronDown, Loader2, Star, Upload,
   Image as ImageIcon, ChevronRight, IndianRupee, Ruler,
-  Home, Zap, Droplets, Car, Shield, Sparkles, FileText
+  Home, Sparkles, FileText
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -223,7 +223,7 @@ function ImageUploader({
   images, onChange, primaryIndex, onSetPrimary
 }: {
   images: UploadedImage[];
-  onChange: (imgs: UploadedImage[]) => void;
+  onChange: React.Dispatch<React.SetStateAction<UploadedImage[]>>;
   primaryIndex: number;
   onSetPrimary: (idx: number) => void;
 }) {
@@ -503,7 +503,6 @@ function PropertyModal({ property, onClose, onSave }: {
   onSave: (data: FormData, images: UploadedImage[], primaryIdx: number) => Promise<void>;
 }) {
   const isEdit = !!property;
-  const isPlot = ['Plot'].includes('');
 
   const [form, setForm] = useState<FormData>(() => {
     if (!property) return EMPTY_FORM;
@@ -1068,38 +1067,38 @@ export default function AdminPropertiesPage() {
       status: form.status,
       transaction_type: form.transaction_type,
       location: locationStr || 'India',
-      locality: form.locality || null,
-      city: form.city || null,
-      state: form.state || null,
-      pincode: form.pincode || null,
+      locality: form.locality || undefined,
+      city: form.city || undefined,
+      state: form.state || undefined,
+      pincode: form.pincode || undefined,
       price: form.price,
-      price_numeric: form.price_numeric ? parseInt(form.price_numeric) : null,
-      price_per_sqft: form.price_per_sqft || null,
-      maintenance: form.maintenance || null,
+      price_numeric: form.price_numeric ? parseInt(form.price_numeric) : undefined,
+      price_per_sqft: form.price_per_sqft || undefined,
+      maintenance: form.maintenance || undefined,
       is_negotiable: form.is_negotiable,
       area: form.super_built_up_area || form.carpet_area || form.plot_area || form.built_up_area || '',
-      super_built_up_area: form.super_built_up_area || null,
-      built_up_area: form.built_up_area || null,
-      carpet_area: form.carpet_area || null,
-      plot_area: form.plot_area || null,
+      super_built_up_area: form.super_built_up_area || undefined,
+      built_up_area: form.built_up_area || undefined,
+      carpet_area: form.carpet_area || undefined,
+      plot_area: form.plot_area || undefined,
       bedrooms: form.bedrooms,
       bathrooms: form.bathrooms,
       balconies: form.balconies,
-      floor_number: form.floor_number ? parseInt(form.floor_number) : null,
-      total_floors: form.total_floors ? parseInt(form.total_floors) : null,
-      facing: form.facing || null,
+      floor_number: form.floor_number ? parseInt(form.floor_number) : undefined,
+      total_floors: form.total_floors ? parseInt(form.total_floors) : undefined,
+      facing: form.facing || undefined,
       furnishing: form.furnishing,
       parking: form.parking,
-      age_of_property: form.age_of_property || null,
+      age_of_property: form.age_of_property || undefined,
       possession_status: form.possession_status,
-      water_supply: form.water_supply || null,
+      water_supply: form.water_supply || undefined,
       power_backup: form.power_backup,
       gated_community: form.gated_community,
       amenities: form.amenities,
       highlighted_features: form.highlighted_features
         ? form.highlighted_features.split('\n').map(s => s.trim()).filter(Boolean)
         : [],
-      rera_number: form.rera_number || null,
+      rera_number: form.rera_number || undefined,
       image: primaryUrl,
       gallery: reordered,
     };
