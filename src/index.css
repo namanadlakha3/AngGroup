@@ -32,10 +32,8 @@
 
 @layer base {
   html, body {
-    font-family: "Jost", sans-serif;
     color: #1C1C1E;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
     background-color: #FDFCF8;
     background-image:
       radial-gradient(ellipse 80% 50% at 50% -10%, rgba(184,134,11,0.06) 0%, transparent 60%),
@@ -43,7 +41,7 @@
     background-attachment: fixed;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: "Jost", sans-serif;
+    font-family: "Cormorant Garamond", "Playfair Display", serif;
     color: #1C1C1E;
     font-weight: 500;
   }
@@ -117,7 +115,7 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 14px 32px;
-  border-radius: 50px;
+  border-radius: 4px;
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(184,134,11,0.28);
@@ -143,7 +141,7 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 13px 32px;
-  border-radius: 50px;
+  border-radius: 4px;
   border: 1.5px solid rgba(28,28,30,0.25);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -168,7 +166,7 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 14px 32px;
-  border-radius: 50px;
+  border-radius: 4px;
   border: none;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(184,134,11,0.28);
@@ -192,7 +190,7 @@
   letter-spacing: 0.13em;
   text-transform: uppercase;
   padding: 13px 32px;
-  border-radius: 50px;
+  border-radius: 4px;
   border: 1.5px solid rgba(28,28,30,0.25);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -205,7 +203,7 @@
   padding: 4px 14px;
   background: rgba(245, 230, 200, 0.9);
   border: 1px solid rgba(184,134,11,0.3);
-  border-radius: 50px;
+  border-radius: 4px;
   color: #8A6208;
   font-size: 0.62rem;
   font-weight: 700;

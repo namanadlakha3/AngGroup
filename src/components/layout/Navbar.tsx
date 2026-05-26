@@ -34,14 +34,14 @@ export default function Navbar() {
   return (
     <header className="fixed left-0 right-0 top-0 z-50">
       <div className={clsx(
-        'transition-all duration-500',
+        'transition-all duration-500 w-full',
         solidNav
-          ? 'mx-4 md:mx-8 mt-3 rounded-2xl glass-panel px-6 py-3'
+          ? 'bg-charcoal/95 backdrop-blur-md border-b border-white/10 px-6 py-4'
           : 'container mx-auto px-6 py-6'
       )}>
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center max-w-7xl mx-auto">
           <Link to="/" className="z-50">
-            <Logo className={solidNav ? 'text-charcoal' : 'text-white drop-shadow-lg'} />
+            <Logo className="text-white drop-shadow-lg" />
           </Link>
 
           {/* Desktop Nav */}
@@ -55,7 +55,7 @@ export default function Navbar() {
                   solidNav
                     ? location.pathname === link.path
                       ? 'text-gold'
-                      : 'text-charcoal/70 hover:text-charcoal'
+                      : 'text-white/85 hover:text-white'
                     : location.pathname === link.path
                       ? 'text-gold-glow'
                       : 'text-white/85 hover:text-white'
