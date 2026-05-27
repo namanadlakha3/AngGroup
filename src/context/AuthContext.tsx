@@ -25,45 +25,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if we are currently in an OAuth redirect flow
-    const isOAuthRedirect = window.location.hash.includes('access_token=') || window.location.hash.includes('error=');
+    let mounted = true;
 
-    // Check active sessions and sets the user
-    supabase.auth.getSession().then(({ data: { session }, error }) => {
-      if (error) {
-        console.error('Error getting session:', error);
-      }
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
-      } else if (!isOAuthRedirect) {
-        setIsLoading(false);
-      }
-    }).catch(err => {
-      console.error('Unexpected error in getSession:', err);
-      if (!isOAuthRedirect) {
-        setIsLoading(false);
-      }
-    });
-
-    // Listen for changes on auth state
+    // onAuthStateChange fires INITIAL_SESSION immediately on subscribe.
+    // IMPORTANT: Do NOT call Supabase DB methods synchronously inside this callback,
+    // as Supabase holds an internal auth lock. Making DB calls re-enters the lock,
+    // causing a deadlock where all API calls in the app freeze permanently.
+    // Defer via setTimeout to escape the lock.
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      (_event, session) => {
+        if (!mounted) return;
+        
         setUser(session?.user ?? null);
+        
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          const userId = session.user.id;
+          setTimeout(() => {
+            if (mounted) {
+              fetchProfile(userId);
+            }
+          }, 0);
         } else {
           setProfile(null);
-          // If the hash still contains the token, Supabase hasn't finished parsing it yet.
-          // Wait for the next event instead of prematurely stopping the loading state.
-          if (!window.location.hash.includes('access_token=') && !window.location.hash.includes('error=')) {
-            setIsLoading(false);
-          }
+          setIsLoading(false);
         }
       }
     );
 
     return () => {
+      mounted = false;
       subscription.unsubscribe();
     };
   }, []);
