@@ -28,26 +28,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Check if we are currently in an OAuth redirect flow
     const isOAuthRedirect = window.location.hash.includes('access_token=') || window.location.hash.includes('error=');
 
-    // Use getUser() instead of getSession() to securely validate the token with the Supabase server
-    supabase.auth.getUser().then(({ data: { user }, error }) => {
+    // Check active sessions and sets the user
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
       if (error) {
-        console.error('Error getting user:', error);
-        setUser(null);
-        setProfile(null);
-        if (!isOAuthRedirect) {
-          setIsLoading(false);
-        }
-        return;
+        console.error('Error getting session:', error);
       }
-      
-      setUser(user);
-      if (user) {
-        fetchProfile(user.id);
+      setUser(session?.user ?? null);
+      if (session?.user) {
+        fetchProfile(session.user.id);
       } else if (!isOAuthRedirect) {
         setIsLoading(false);
       }
     }).catch(err => {
-      console.error('Unexpected error in getUser:', err);
+      console.error('Unexpected error in getSession:', err);
       if (!isOAuthRedirect) {
         setIsLoading(false);
       }

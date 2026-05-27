@@ -270,12 +270,12 @@ export default function PropertiesPage() {
     let result = properties.filter(p => {
       const q = searchQuery.toLowerCase();
       const matchSearch = !q ||
-        p.title.toLowerCase().includes(q) ||
-        p.location.toLowerCase().includes(q) ||
-        (p.city ?? '').toLowerCase().includes(q) ||
-        (p.locality ?? '').toLowerCase().includes(q) ||
-        (p.state ?? '').toLowerCase().includes(q) ||
-        p.type.toLowerCase().includes(q);
+        (p.title || '').toLowerCase().includes(q) ||
+        (p.location || '').toLowerCase().includes(q) ||
+        (p.city || '').toLowerCase().includes(q) ||
+        (p.locality || '').toLowerCase().includes(q) ||
+        (p.state || '').toLowerCase().includes(q) ||
+        (p.type || '').toLowerCase().includes(q);
       return matchSearch
         && (selectedType === 'All' || p.type === selectedType)
         && (selectedStatus === 'All' || p.status === selectedStatus);
