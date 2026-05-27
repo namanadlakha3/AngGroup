@@ -99,6 +99,33 @@ export default function PropertyDetailsPage() {
   const [activeImage, setActiveImage] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
+  // Lead form state
+  const [leadForm, setLeadForm] = useState({ name: '', phone: '', email: '', message: '' });
+  const [leadSubmitting, setLeadSubmitting] = useState(false);
+  const [leadStatus, setLeadStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const handleLeadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!leadForm.name.trim() || !leadForm.phone.trim()) return;
+    setLeadSubmitting(true);
+    const { error } = await supabase.from('leads').insert([{
+      property_id: id || null,
+      property_title: property?.title || '',
+      name: leadForm.name.trim(),
+      phone: leadForm.phone.trim(),
+      email: leadForm.email.trim() || null,
+      message: leadForm.message.trim() || null,
+      status: 'new',
+    }]);
+    setLeadSubmitting(false);
+    if (error) {
+      setLeadStatus('error');
+    } else {
+      setLeadStatus('success');
+      setLeadForm({ name: '', phone: '', email: '', message: '' });
+    }
+  };
+
   useEffect(() => {
     async function fetchProperty() {
       if (id) {
@@ -353,13 +380,72 @@ export default function PropertyDetailsPage() {
                 <h3 className="text-2xl font-serif font-medium text-charcoal mb-1">Interested?</h3>
                 <p className="text-charcoal-muted text-sm mb-6 font-light">Schedule a private viewing or request a callback.</p>
 
-                <form className="space-y-3" onSubmit={e => e.preventDefault()}>
-                  <input type="text" placeholder="Your Name" className="form-input" />
-                  <input type="tel" placeholder="Phone Number" className="form-input" />
-                  <input type="email" placeholder="Email Address" className="form-input" />
-                  <textarea placeholder="Message (Optional)" rows={3} className="form-input resize-none" />
-                  <button type="submit" className="btn-gold w-full">Request Callback</button>
-                </form>
+                {leadStatus === 'success' ? (
+                  <div className="text-center py-6">
+                    <div className="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Check size={24} className="text-emerald-600" />
+                    </div>
+                    <h4 className="font-semibold text-charcoal mb-1">Request Received!</h4>
+                    <p className="text-sm text-charcoal-muted mb-4">We'll get back to you shortly.</p>
+                    <button
+                      onClick={() => setLeadStatus('idle')}
+                      className="text-xs text-gold underline font-medium"
+                    >
+                      Submit another enquiry
+                    </button>
+                  </div>
+                ) : (
+                  <form className="space-y-3" onSubmit={handleLeadSubmit}>
+                    <div>
+                      <input
+                        type="text"
+                        placeholder="Your Name *"
+                        value={leadForm.name}
+                        onChange={e => setLeadForm(f => ({ ...f, name: e.target.value }))}
+                        required
+                        className="form-input"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="tel"
+                        placeholder="Phone Number *"
+                        value={leadForm.phone}
+                        onChange={e => setLeadForm(f => ({ ...f, phone: e.target.value }))}
+                        required
+                        className="form-input"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="email"
+                        placeholder="Email Address"
+                        value={leadForm.email}
+                        onChange={e => setLeadForm(f => ({ ...f, email: e.target.value }))}
+                        className="form-input"
+                      />
+                    </div>
+                    <div>
+                      <textarea
+                        placeholder="Message (Optional)"
+                        rows={3}
+                        value={leadForm.message}
+                        onChange={e => setLeadForm(f => ({ ...f, message: e.target.value }))}
+                        className="form-input resize-none"
+                      />
+                    </div>
+                    {leadStatus === 'error' && (
+                      <p className="text-xs text-red-500">Something went wrong. Please try again.</p>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={leadSubmitting}
+                      className="btn-gold w-full disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      {leadSubmitting ? 'Submitting…' : 'Request Callback'}
+                    </button>
+                  </form>
+                )}
 
                 <div className="mt-6 pt-5 border-t border-black/5 space-y-3">
                   <a href="tel:+918442083670" className="btn-outline w-full justify-center">

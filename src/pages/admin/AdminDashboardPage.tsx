@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import {
   Building2, Users as UsersIcon, LayoutDashboard, Settings,
-  TrendingUp, Eye, Clock, Star, ArrowUpRight
+  TrendingUp, Eye, Clock, Star, ArrowUpRight, MessageSquare
 } from 'lucide-react';
 import clsx from 'clsx';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import AdminPropertiesPage from './AdminPropertiesPage';
 import AdminUsersPage from './AdminUsersPage';
+import AdminLeadsPage from './AdminLeadsPage';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface Stats {
@@ -16,6 +17,7 @@ interface Stats {
   users: number;
   available: number;
   sold: number;
+  newLeads: number;
 }
 
 interface RecentProperty {
@@ -28,12 +30,13 @@ interface RecentProperty {
   created_at: string;
 }
 
-type Tab = 'overview' | 'properties' | 'users';
+type Tab = 'overview' | 'properties' | 'users' | 'leads';
 
 const tabs: { id: Tab; name: string; icon: React.ElementType }[] = [
   { id: 'overview', name: 'Overview', icon: LayoutDashboard },
   { id: 'properties', name: 'Properties', icon: Building2 },
   { id: 'users', name: 'Users', icon: UsersIcon },
+  { id: 'leads', name: 'Leads', icon: MessageSquare },
 ];
 
 function StatCard({
@@ -77,7 +80,7 @@ function StatusDot({ status }: { status: string }) {
 export default function AdminDashboardPage() {
   const { user, profile, isLoading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('overview');
-  const [stats, setStats] = useState<Stats>({ properties: 0, users: 0, available: 0, sold: 0 });
+  const [stats, setStats] = useState<Stats>({ properties: 0, users: 0, available: 0, sold: 0, newLeads: 0 });
   const [recentProperties, setRecentProperties] = useState<RecentProperty[]>([]);
   const [statsLoading, setStatsLoading] = useState(true);
 
@@ -88,12 +91,14 @@ export default function AdminDashboardPage() {
         { count: uCount },
         { count: availCount },
         { count: soldCount },
+        { count: newLeadsCount },
         { data: recent }
       ] = await Promise.all([
         supabase.from('properties').select('*', { count: 'exact', head: true }),
         supabase.from('profiles').select('*', { count: 'exact', head: true }),
         supabase.from('properties').select('*', { count: 'exact', head: true }).eq('status', 'Available'),
         supabase.from('properties').select('*', { count: 'exact', head: true }).eq('status', 'Sold'),
+        supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'new'),
         supabase.from('properties').select('id,title,location,price,status,image,created_at').order('created_at', { ascending: false }).limit(5),
       ]);
       setStats({
@@ -101,6 +106,7 @@ export default function AdminDashboardPage() {
         users: uCount || 0,
         available: availCount || 0,
         sold: soldCount || 0,
+        newLeads: newLeadsCount || 0,
       });
       setRecentProperties(recent || []);
       setStatsLoading(false);
@@ -148,9 +154,10 @@ export default function AdminDashboardPage() {
 
       {/* Tab Navigation */}
       <div className="flex items-center gap-1 mb-8 bg-white p-1.5 rounded-2xl shadow-sm border border-gray-100 inline-flex overflow-x-auto hide-scrollbar">
-        {tabs.map(tab => {
+      {tabs.map(tab => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
+          const badge = tab.id === 'leads' && stats.newLeads > 0 ? stats.newLeads : null;
           return (
             <button
               key={tab.id}
@@ -171,6 +178,11 @@ export default function AdminDashboardPage() {
               )}
               <Icon size={16} className={clsx('relative z-10', isActive ? 'text-gold' : 'text-gray-400')} />
               <span className="relative z-10">{tab.name}</span>
+              {badge && (
+                <span className="relative z-10 ml-0.5 w-4 h-4 bg-red-500 text-white rounded-full text-[9px] font-bold flex items-center justify-center leading-none">
+                  {badge > 9 ? '9+' : badge}
+                </span>
+              )}
             </button>
           );
         })}
@@ -211,10 +223,11 @@ export default function AdminDashboardPage() {
                   accent="bg-emerald-50 text-emerald-600"
                 />
                 <StatCard
-                  label="Sold"
-                  value={statsLoading ? '—' : stats.sold}
-                  icon={ArrowUpRight}
+                  label="New Leads"
+                  value={statsLoading ? '—' : stats.newLeads}
+                  icon={MessageSquare}
                   accent="bg-red-50 text-red-500"
+                  delta="Pending follow-up"
                 />
               </div>
 
@@ -355,6 +368,16 @@ export default function AdminDashboardPage() {
             </div>
           )}
 
+          {/* ── LEADS ───────────────────────────────────── */}
+          {activeTab === 'leads' && (
+            <div className="mt-2">
+              <div className="mb-6">
+                <h2 className="text-2xl font-serif text-charcoal">Leads</h2>
+                <p className="text-sm text-charcoal-muted mt-1">Enquiries submitted via the property contact form.</p>
+              </div>
+              <AdminLeadsPage />
+            </div>
+          )}
           {/* ── USERS ────────────────────────────────────── */}
           {activeTab === 'users' && (
             <div className="mt-2">
