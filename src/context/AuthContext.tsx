@@ -28,19 +28,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Check if we are currently in an OAuth redirect flow
     const isOAuthRedirect = window.location.hash.includes('access_token=') || window.location.hash.includes('error=');
 
-    // Check active sessions and sets the user
-    supabase.auth.getSession().then(({ data: { session }, error }) => {
+    // Use getUser() instead of getSession() to securely validate the token with the Supabase server
+    supabase.auth.getUser().then(({ data: { user }, error }) => {
       if (error) {
-        console.error('Error getting session:', error);
+        console.error('Error getting user:', error);
+        setUser(null);
+        setProfile(null);
+        if (!isOAuthRedirect) {
+          setIsLoading(false);
+        }
+        return;
       }
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
+      
+      setUser(user);
+      if (user) {
+        fetchProfile(user.id);
       } else if (!isOAuthRedirect) {
         setIsLoading(false);
       }
     }).catch(err => {
-      console.error('Unexpected error in getSession:', err);
+      console.error('Unexpected error in getUser:', err);
       if (!isOAuthRedirect) {
         setIsLoading(false);
       }
@@ -78,16 +85,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
       if (!error && data) {
         setProfile(data);
+      } else if (error) {
+        console.error('Error fetching profile:', error);
       }
     } catch (err) {
-      console.error('Error fetching profile:', err);
+      console.error('Unexpected error fetching profile:', err);
     } finally {
       setIsLoading(false);
     }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    } finally {
+      setUser(null);
+      setProfile(null);
+      // Fallback: forcefully clear local storage tokens if Supabase gets stuck
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('sb-') && key.endsWith('-auth-token')) {
+          localStorage.removeItem(key);
+        }
+      });
+    }
   };
 
   return (
