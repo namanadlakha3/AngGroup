@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import type { Property } from '../../types/property';
+import { useTranslation } from 'react-i18next';
 
 export default function FeaturedProperties() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     async function fetchFeatured() {
@@ -39,17 +41,17 @@ export default function FeaturedProperties() {
         <div className="flex flex-col md:flex-row justify-between items-end mb-14 gap-6">
           <div>
             <p className="section-label mb-4 justify-start">
-              <span>Exquisite Collection</span>
+              <span>{t('home.feat_label', 'Exquisite Collection')}</span>
             </p>
             <h2 className="text-4xl md:text-5xl font-serif font-medium text-charcoal leading-tight">
-              Featured Properties
+              {t('home.feat_title', 'Featured Properties')}
             </h2>
           </div>
           <Link
             to="/properties"
             className="group flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-charcoal/70 hover:text-gold transition-colors whitespace-nowrap"
           >
-            View All
+            {t('home.feat_view_all', 'View All')}
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

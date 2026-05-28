@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../ui/Logo';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from '../ui/LanguageSwitcher';
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -12,6 +14,7 @@ export default function Navbar() {
   const location = useLocation();
   const isHome = location.pathname === '/';
   const { user, profile, signOut } = useAuth();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 60);
@@ -24,12 +27,12 @@ export default function Navbar() {
   }, [location.pathname]);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Properties', path: '/properties' },
-    { name: 'Partners', path: '/partners' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Contact', path: '/contact' },
-    ...(profile?.role === 'admin' ? [{ name: 'Admin Dashboard', path: '/admin' }] : []),
+    { name: t('nav.home', 'Home'), path: '/' },
+    { name: t('nav.properties', 'Properties'), path: '/properties' },
+    { name: t('nav.partners', 'Partners'), path: '/partners' },
+    { name: t('nav.about', 'About Us'), path: '/about' },
+    { name: t('nav.contact', 'Contact'), path: '/contact' },
+    ...(profile?.role === 'admin' ? [{ name: t('nav.admin', 'Admin Dashboard'), path: '/admin' }] : []),
   ];
 
   const solidNav = isScrolled || !isHome;
@@ -79,7 +82,7 @@ export default function Navbar() {
                 !solidNav && 'shadow-[0_4px_20px_rgba(0,0,0,0.25)]'
               )}
             >
-              Sign Out
+              {t('nav.sign_out', 'Sign Out')}
             </button>
           ) : (
             <Link
@@ -89,9 +92,10 @@ export default function Navbar() {
                 solidNav ? 'text-white/85 hover:text-white' : 'text-white/85 hover:text-white'
               )}
             >
-              Login
+              {t('nav.login', 'Login')}
             </Link>
           )}
+          <LanguageSwitcher />
         </nav>
 
           {/* Mobile hamburger */}
@@ -149,13 +153,16 @@ export default function Navbar() {
               >
                 {user ? (
                   <button onClick={signOut} className="btn-gold mt-4">
-                    Sign Out
+                    {t('nav.sign_out', 'Sign Out')}
                   </button>
                 ) : (
                   <Link to="/login" className="btn-gold mt-4">
-                    Login
+                    {t('nav.login', 'Login')}
                   </Link>
                 )}
+                <div className="mt-8 flex justify-center">
+                  <LanguageSwitcher />
+                </div>
               </motion.div>
             </div>
           </motion.div>

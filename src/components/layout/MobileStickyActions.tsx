@@ -1,9 +1,11 @@
 import { Phone, MessageCircle, Mail } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 
 export default function MobileStickyActions() {
   const [isVisible, setIsVisible] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => setIsVisible(window.scrollY > 200);
@@ -26,7 +28,7 @@ export default function MobileStickyActions() {
           className="flex flex-col items-center justify-center py-3.5 flex-1 text-white/70 hover:text-gold transition-colors border-r border-white/8 text-center"
         >
           <Phone size={20} className="mb-1" />
-          <span className="text-[9px] uppercase tracking-widest font-bold">Call</span>
+          <span className="text-[9px] uppercase tracking-widest font-bold">{t('mobile.call', 'Call')}</span>
         </a>
         <a
           href="https://wa.me/918442083670"
@@ -35,14 +37,14 @@ export default function MobileStickyActions() {
           className="flex flex-col items-center justify-center py-3.5 flex-1 text-white/70 hover:text-green-400 transition-colors border-r border-white/8 text-center"
         >
           <MessageCircle size={20} className="mb-1" />
-          <span className="text-[9px] uppercase tracking-widest font-bold">WhatsApp</span>
+          <span className="text-[9px] uppercase tracking-widest font-bold">{t('mobile.whatsapp', 'WhatsApp')}</span>
         </a>
         <a
           href="mailto:ngbuild@gmail.com"
           className="flex flex-col items-center justify-center py-3.5 flex-1 text-white/70 hover:text-gold transition-colors text-center"
         >
           <Mail size={20} className="mb-1" />
-          <span className="text-[9px] uppercase tracking-widest font-bold">Email</span>
+          <span className="text-[9px] uppercase tracking-widest font-bold">{t('mobile.email', 'Email')}</span>
         </a>
       </div>
     </div>

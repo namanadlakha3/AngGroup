@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import type { Property } from '../types/property';
+import { useTranslation } from 'react-i18next';
 
 const TYPE_EMOJI: Record<string, string> = {
   'Apartment': '🏢', 'Villa': '🏠', 'Independent House': '🏡', 'Plot': '🏗️',
@@ -76,9 +77,9 @@ function Lightbox({ images, index, onClose }: {
 
 // ─── Spec Row ─────────────────────────────────────────────────────────────────
 
-function SpecRow({ icon, label, value }: { icon: React.ReactNode; label: string; value?: string | number | boolean | null }) {
+function SpecRow({ icon, label, value, t }: { icon: React.ReactNode; label: string; value?: string | number | boolean | null; t: any }) {
   if (!value && value !== 0 && value !== false) return null;
-  const displayValue = typeof value === 'boolean' ? (value ? 'Yes' : 'No') : String(value);
+  const displayValue = typeof value === 'boolean' ? (value ? t('details.yes', 'Yes') : t('details.no', 'No')) : String(value);
   return (
     <div className="flex items-center justify-between py-2.5 border-b border-gray-50 last:border-0">
       <div className="flex items-center gap-2.5 text-charcoal-muted text-sm">
@@ -98,6 +99,7 @@ export default function PropertyDetailsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const { t } = useTranslation();
 
   // Lead form state
   const [leadForm, setLeadForm] = useState({ name: '', phone: '', email: '', message: '' });
@@ -142,7 +144,7 @@ export default function PropertyDetailsPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" />
-          <span className="text-sm text-charcoal-muted">Loading property...</span>
+          <span className="text-sm text-charcoal-muted">{t('details.loading', 'Loading property...')}</span>
         </div>
       </div>
     );
@@ -153,8 +155,8 @@ export default function PropertyDetailsPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-5xl mb-4">🏚️</div>
-          <h2 className="text-3xl font-serif text-charcoal mb-4">Property Not Found</h2>
-          <Link to="/properties" className="text-gold underline font-medium">Return to Properties</Link>
+          <h2 className="text-3xl font-serif text-charcoal mb-4">{t('details.not_found', 'Property Not Found')}</h2>
+          <Link to="/properties" className="text-gold underline font-medium">{t('details.return', 'Return to Properties')}</Link>
         </div>
       </div>
     );
@@ -181,7 +183,7 @@ export default function PropertyDetailsPage() {
       {/* Back */}
       <div className="container mx-auto px-6 mb-5">
         <Link to="/properties" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-charcoal-muted hover:text-gold transition-colors">
-          <ArrowLeft size={14} /> Back to Properties
+          <ArrowLeft size={14} /> {t('details.back', 'Back to Properties')}
         </Link>
       </div>
 
@@ -216,7 +218,7 @@ export default function PropertyDetailsPage() {
           </div>
 
           <div className="md:text-right shrink-0">
-            <div className="text-sm font-bold uppercase tracking-widest text-charcoal-muted mb-1">Asking Price</div>
+            <div className="text-sm font-bold uppercase tracking-widest text-charcoal-muted mb-1">{t('details.asking_price', 'Asking Price')}</div>
             <div className="text-4xl md:text-5xl font-serif font-medium text-gold flex items-center md:justify-end gap-1">
               <IndianRupee size={30} strokeWidth={2} /> {property.price}
             </div>
@@ -224,11 +226,11 @@ export default function PropertyDetailsPage() {
               <div className="text-sm text-charcoal-muted mt-1">{property.price_per_sqft}</div>
             )}
             {property.maintenance && (
-              <div className="text-sm text-charcoal-muted">Maintenance: ₹ {property.maintenance}</div>
+              <div className="text-sm text-charcoal-muted">{t('details.maintenance', 'Maintenance')}: ₹ {property.maintenance}</div>
             )}
             {property.is_negotiable && (
               <span className="inline-block mt-2 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
-                ✅ Price Negotiable
+                ✅ {t('details.negotiable', 'Price Negotiable')}
               </span>
             )}
           </div>
@@ -251,7 +253,7 @@ export default function PropertyDetailsPage() {
               />
               {images.length > 1 && (
                 <div className="absolute bottom-4 right-4 bg-black/60 text-white text-xs font-medium px-3 py-1.5 rounded-full flex items-center gap-2">
-                  📷 {activeImage + 1} / {images.length} · Click to expand
+                  📷 {activeImage + 1} / {images.length} · {t('details.expand', 'Click to expand')}
                 </div>
               )}
             </div>
@@ -269,7 +271,7 @@ export default function PropertyDetailsPage() {
                     <img src={img} alt={`Thumbnail ${i + 1}`} className="w-full h-full object-cover" />
                     {i === 0 && (
                       <div className="absolute top-1 left-1 bg-gold/90 text-white text-[8px] font-bold px-1.5 py-0.5 rounded flex items-center gap-0.5">
-                        <Star size={7} fill="white" /> Primary
+                        <Star size={7} fill="white" /> {t('details.primary', 'Primary')}
                       </div>
                     )}
                   </button>
@@ -289,7 +291,7 @@ export default function PropertyDetailsPage() {
             {property.highlighted_features && property.highlighted_features.length > 0 && (
               <div className="bg-gradient-to-br from-gold/5 to-transparent border border-gold/20 rounded-2xl p-6">
                 <h2 className="text-lg font-semibold text-charcoal mb-4 flex items-center gap-2">
-                  <Sparkles size={18} className="text-gold" /> Key Highlights
+                  <Sparkles size={18} className="text-gold" /> {t('details.highlights', 'Key Highlights')}
                 </h2>
                 <ul className="space-y-2.5">
                   {property.highlighted_features.map((f, i) => (
@@ -307,10 +309,10 @@ export default function PropertyDetailsPage() {
             {/* Quick Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
-                property.bedrooms && property.bedrooms > 0 && { icon: <Bed size={22} className="text-gold" />, value: `${property.bedrooms} BHK`, label: 'Bedrooms' },
-                property.bathrooms && property.bathrooms > 0 && { icon: <Bath size={22} className="text-gold" />, value: property.bathrooms, label: 'Bathrooms' },
-                areaDisplay && { icon: <Ruler size={22} className="text-gold" />, value: areaDisplay, label: 'Area' },
-                property.balconies && property.balconies > 0 && { icon: <Home size={22} className="text-gold" />, value: property.balconies, label: 'Balconies' },
+                property.bedrooms && property.bedrooms > 0 && { icon: <Bed size={22} className="text-gold" />, value: `${property.bedrooms} BHK`, label: t('details.bedrooms', 'Bedrooms') },
+                property.bathrooms && property.bathrooms > 0 && { icon: <Bath size={22} className="text-gold" />, value: property.bathrooms, label: t('details.bathrooms', 'Bathrooms') },
+                areaDisplay && { icon: <Ruler size={22} className="text-gold" />, value: areaDisplay, label: t('details.area', 'Area') },
+                property.balconies && property.balconies > 0 && { icon: <Home size={22} className="text-gold" />, value: property.balconies, label: t('details.balconies', 'Balconies') },
               ].filter(Boolean).map((stat: any) => (
                 <div key={stat.label} className="flex flex-col items-center justify-center py-5 px-3 bg-white rounded-2xl border border-black/6 text-center">
                   {stat.icon}
@@ -322,34 +324,34 @@ export default function PropertyDetailsPage() {
 
             {/* Description */}
             <div className="bg-white rounded-2xl border border-black/6 p-7">
-              <h2 className="text-2xl font-serif font-medium text-charcoal mb-4">About this Property</h2>
+              <h2 className="text-2xl font-serif font-medium text-charcoal mb-4">{t('details.about', 'About this Property')}</h2>
               <p className="text-charcoal-muted leading-relaxed text-base font-light whitespace-pre-line">{property.description}</p>
             </div>
 
             {/* Property Specifications */}
             <div className="bg-white rounded-2xl border border-black/6 p-7">
-              <h2 className="text-2xl font-serif font-medium text-charcoal mb-5">Property Details</h2>
+              <h2 className="text-2xl font-serif font-medium text-charcoal mb-5">{t('details.prop_details', 'Property Details')}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                 <div>
-                  <SpecRow icon={<Building2 size={14} />} label="Property Type" value={`${typeEmoji} ${property.type}`} />
-                  <SpecRow icon={<Tag size={14} />} label="Transaction" value={property.transaction_type} />
-                  <SpecRow icon={<Calendar size={14} />} label="Age of Property" value={property.age_of_property} />
-                  <SpecRow icon={<Calendar size={14} />} label="Possession" value={property.possession_status} />
-                  <SpecRow icon={<Compass size={14} />} label="Facing" value={property.facing} />
-                  <SpecRow icon={<Home size={14} />} label="Furnishing" value={property.furnishing} />
-                  <SpecRow icon={<Car size={14} />} label="Parking" value={property.parking} />
+                  <SpecRow icon={<Building2 size={14} />} label={t('details.type', 'Property Type')} value={`${typeEmoji} ${property.type}`} t={t} />
+                  <SpecRow icon={<Tag size={14} />} label={t('details.transaction', 'Transaction')} value={property.transaction_type} t={t} />
+                  <SpecRow icon={<Calendar size={14} />} label={t('details.age', 'Age of Property')} value={property.age_of_property} t={t} />
+                  <SpecRow icon={<Calendar size={14} />} label={t('details.possession', 'Possession')} value={property.possession_status} t={t} />
+                  <SpecRow icon={<Compass size={14} />} label={t('details.facing', 'Facing')} value={property.facing} t={t} />
+                  <SpecRow icon={<Home size={14} />} label={t('details.furnishing', 'Furnishing')} value={property.furnishing} t={t} />
+                  <SpecRow icon={<Car size={14} />} label={t('details.parking', 'Parking')} value={property.parking} t={t} />
                 </div>
                 <div>
                   {property.floor_number !== undefined && property.floor_number !== null && (
-                    <SpecRow icon={<Building2 size={14} />} label="Floor" value={`${property.floor_number}${property.total_floors ? ` of ${property.total_floors}` : ''}`} />
+                    <SpecRow icon={<Building2 size={14} />} label={t('details.floor', 'Floor')} value={`${property.floor_number}${property.total_floors ? ` ${t('details.of', 'of')} ${property.total_floors}` : ''}`} t={t} />
                   )}
-                  <SpecRow icon={<Ruler size={14} />} label="Super Built-up" value={property.super_built_up_area} />
-                  <SpecRow icon={<Ruler size={14} />} label="Built-up Area" value={property.built_up_area} />
-                  <SpecRow icon={<Ruler size={14} />} label="Carpet Area" value={property.carpet_area} />
-                  <SpecRow icon={<Ruler size={14} />} label="Plot Area" value={property.plot_area} />
-                  <SpecRow icon={<Droplets size={14} />} label="Water Supply" value={property.water_supply} />
-                  <SpecRow icon={<Zap size={14} />} label="Power Backup" value={property.power_backup} />
-                  <SpecRow icon={<Shield size={14} />} label="Gated Community" value={property.gated_community} />
+                  <SpecRow icon={<Ruler size={14} />} label={t('details.super_built_up', 'Super Built-up')} value={property.super_built_up_area} t={t} />
+                  <SpecRow icon={<Ruler size={14} />} label={t('details.built_up', 'Built-up Area')} value={property.built_up_area} t={t} />
+                  <SpecRow icon={<Ruler size={14} />} label={t('details.carpet', 'Carpet Area')} value={property.carpet_area} t={t} />
+                  <SpecRow icon={<Ruler size={14} />} label={t('details.plot_area', 'Plot Area')} value={property.plot_area} t={t} />
+                  <SpecRow icon={<Droplets size={14} />} label={t('details.water', 'Water Supply')} value={property.water_supply} t={t} />
+                  <SpecRow icon={<Zap size={14} />} label={t('details.power', 'Power Backup')} value={property.power_backup} t={t} />
+                  <SpecRow icon={<Shield size={14} />} label={t('details.gated', 'Gated Community')} value={property.gated_community} t={t} />
                 </div>
               </div>
             </div>
@@ -358,7 +360,7 @@ export default function PropertyDetailsPage() {
             {property.amenities && property.amenities.length > 0 && (
               <div className="bg-white rounded-2xl border border-black/6 p-7">
                 <h2 className="text-2xl font-serif font-medium text-charcoal mb-6">
-                  Amenities <span className="text-base font-sans font-normal text-charcoal-muted">({property.amenities.length})</span>
+                  {t('details.amenities', 'Amenities')} <span className="text-base font-sans font-normal text-charcoal-muted">({property.amenities.length})</span>
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {property.amenities.map(amenity => (
@@ -377,21 +379,21 @@ export default function PropertyDetailsPage() {
             <div className="sticky top-28 space-y-4">
               {/* Contact card */}
               <div className="bg-white rounded-2xl border border-black/8 shadow-[0_4px_32px_rgba(0,0,0,0.08)] p-7">
-                <h3 className="text-2xl font-serif font-medium text-charcoal mb-1">Interested?</h3>
-                <p className="text-charcoal-muted text-sm mb-6 font-light">Schedule a private viewing or request a callback.</p>
+                <h3 className="text-2xl font-serif font-medium text-charcoal mb-1">{t('details.interested', 'Interested?')}</h3>
+                <p className="text-charcoal-muted text-sm mb-6 font-light">{t('details.schedule', 'Schedule a private viewing or request a callback.')}</p>
 
                 {leadStatus === 'success' ? (
                   <div className="text-center py-6">
                     <div className="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
                       <Check size={24} className="text-emerald-600" />
                     </div>
-                    <h4 className="font-semibold text-charcoal mb-1">Request Received!</h4>
-                    <p className="text-sm text-charcoal-muted mb-4">We'll get back to you shortly.</p>
+                    <h4 className="font-semibold text-charcoal mb-1">{t('details.received', 'Request Received!')}</h4>
+                    <p className="text-sm text-charcoal-muted mb-4">{t('details.shortly', "We'll get back to you shortly.")}</p>
                     <button
                       onClick={() => setLeadStatus('idle')}
                       className="text-xs text-gold underline font-medium"
                     >
-                      Submit another enquiry
+                      {t('details.another', 'Submit another enquiry')}
                     </button>
                   </div>
                 ) : (
@@ -399,7 +401,7 @@ export default function PropertyDetailsPage() {
                     <div>
                       <input
                         type="text"
-                        placeholder="Your Name *"
+                        placeholder={t('details.name', 'Your Name *')}
                         value={leadForm.name}
                         onChange={e => setLeadForm(f => ({ ...f, name: e.target.value }))}
                         required
@@ -409,7 +411,7 @@ export default function PropertyDetailsPage() {
                     <div>
                       <input
                         type="tel"
-                        placeholder="Phone Number *"
+                        placeholder={t('details.phone', 'Phone Number *')}
                         value={leadForm.phone}
                         onChange={e => setLeadForm(f => ({ ...f, phone: e.target.value }))}
                         required
@@ -419,7 +421,7 @@ export default function PropertyDetailsPage() {
                     <div>
                       <input
                         type="email"
-                        placeholder="Email Address"
+                        placeholder={t('details.email', 'Email Address')}
                         value={leadForm.email}
                         onChange={e => setLeadForm(f => ({ ...f, email: e.target.value }))}
                         className="form-input"
@@ -427,7 +429,7 @@ export default function PropertyDetailsPage() {
                     </div>
                     <div>
                       <textarea
-                        placeholder="Message (Optional)"
+                        placeholder={t('details.message', 'Message (Optional)')}
                         rows={3}
                         value={leadForm.message}
                         onChange={e => setLeadForm(f => ({ ...f, message: e.target.value }))}
@@ -435,25 +437,25 @@ export default function PropertyDetailsPage() {
                       />
                     </div>
                     {leadStatus === 'error' && (
-                      <p className="text-xs text-red-500">Something went wrong. Please try again.</p>
+                      <p className="text-xs text-red-500">{t('details.error', 'Something went wrong. Please try again.')}</p>
                     )}
                     <button
                       type="submit"
                       disabled={leadSubmitting}
                       className="btn-gold w-full disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                      {leadSubmitting ? 'Submitting…' : 'Request Callback'}
+                      {leadSubmitting ? t('details.submitting', 'Submitting…') : t('details.callback', 'Request Callback')}
                     </button>
                   </form>
                 )}
 
                 <div className="mt-6 pt-5 border-t border-black/5 space-y-3">
                   <a href="tel:+918442083670" className="btn-outline w-full justify-center">
-                    <Phone size={15} /> Call Us Now
+                    <Phone size={15} /> {t('details.call_us', 'Call Us Now')}
                   </a>
                   <a href="https://wa.me/918442083670" target="_blank" rel="noreferrer"
                     className="flex items-center justify-center gap-2 w-full py-3.5 px-6 bg-[#25D366] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#128C7E] transition-colors">
-                    <MessageCircle size={15} /> WhatsApp
+                    <MessageCircle size={15} /> {t('mobile.whatsapp', 'WhatsApp')}
                   </a>
                 </div>
               </div>
@@ -462,7 +464,7 @@ export default function PropertyDetailsPage() {
               {(property.city || property.locality) && (
                 <div className="bg-white rounded-2xl border border-black/6 p-5">
                   <h4 className="text-sm font-semibold text-charcoal mb-3 flex items-center gap-2">
-                    <MapPin size={14} className="text-gold" /> Location
+                    <MapPin size={14} className="text-gold" /> {t('details.location', 'Location')}
                   </h4>
                   <p className="text-sm text-charcoal-muted leading-relaxed">
                     {[property.locality, property.city, property.state, property.pincode].filter(Boolean).join(', ')}
@@ -473,28 +475,28 @@ export default function PropertyDetailsPage() {
               {/* Price breakdown mini-card */}
               <div className="bg-gold/5 border border-gold/20 rounded-2xl p-5">
                 <h4 className="text-sm font-semibold text-charcoal mb-3 flex items-center gap-2">
-                  <IndianRupee size={14} className="text-gold" /> Price Summary
+                  <IndianRupee size={14} className="text-gold" /> {t('details.price_summary', 'Price Summary')}
                 </h4>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-charcoal-muted">Asking Price</span>
+                    <span className="text-charcoal-muted">{t('details.asking_price', 'Asking Price')}</span>
                     <span className="font-bold text-charcoal">₹ {property.price}</span>
                   </div>
                   {property.price_per_sqft && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-charcoal-muted">Rate</span>
+                      <span className="text-charcoal-muted">{t('details.rate', 'Rate')}</span>
                       <span className="font-semibold text-charcoal">{property.price_per_sqft}</span>
                     </div>
                   )}
                   {property.maintenance && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-charcoal-muted">Maintenance</span>
-                      <span className="font-semibold text-charcoal">₹ {property.maintenance}/mo</span>
+                      <span className="text-charcoal-muted">{t('details.maintenance', 'Maintenance')}</span>
+                      <span className="font-semibold text-charcoal">₹ {property.maintenance}{t('details.mo', '/mo')}</span>
                     </div>
                   )}
                   {property.is_negotiable && (
                     <div className="pt-2 border-t border-gold/20 text-xs text-emerald-700 font-semibold flex items-center gap-1">
-                      <Check size={11} /> Price is negotiable
+                      <Check size={11} /> {t('details.negotiable', 'Price is negotiable')}
                     </div>
                   )}
                 </div>

@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function ContactPage() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen pt-28 pb-20">
       <div className="container mx-auto px-6">
@@ -9,13 +11,13 @@ export default function ContactPage() {
         {/* Header */}
         <div className="text-center mb-16 max-w-2xl mx-auto">
           <p className="section-label justify-center mb-5">
-            <span>Get in Touch</span>
+            <span>{t('contact.get_in_touch', 'Get in Touch')}</span>
           </p>
           <h1 className="text-5xl md:text-6xl font-serif font-medium text-charcoal mb-5 leading-tight">
-            Contact Us
+            {t('contact.title', 'Contact Us')}
           </h1>
           <p className="text-charcoal-muted text-lg font-light">
-            Whether you are looking for your dream home or a lucrative investment, our team of experts is ready to assist you.
+            {t('contact.desc', 'Whether you are looking for your dream home or a lucrative investment, our team of experts is ready to assist you.')}
           </p>
         </div>
 
@@ -32,30 +34,30 @@ export default function ContactPage() {
               <div className="absolute top-0 right-0 w-40 h-40 bg-gold/10 blur-[60px] rounded-full pointer-events-none" />
 
               <div>
-                <h2 className="text-2xl font-serif text-white mb-1">Contact Information</h2>
-                <p className="text-white/50 text-sm">Reach us anytime — we're always here to help.</p>
+                <h2 className="text-2xl font-serif text-white mb-1">{t('contact.info', 'Contact Information')}</h2>
+                <p className="text-white/50 text-sm">{t('contact.reach_us', "Reach us anytime — we're always here to help.")}</p>
               </div>
 
               {[
                 {
                   icon: <MapPin size={18} />,
-                  title: 'Corporate Office',
-                  content: 'Second Floor, C/15, Ganga Marg, Indra Gandhi Nagar, Sector-1, Jagatpura, Jaipur, Rajasthan 302017',
+                  title: t('contact.office', 'Corporate Office'),
+                  content: t('contact.address', 'Second Floor, C/15, Ganga Marg, Indra Gandhi Nagar, Sector-1, Jagatpura, Jaipur, Rajasthan 302017'),
                 },
                 {
                   icon: <Phone size={18} />,
-                  title: 'Phone',
+                  title: t('contact.phone_title', 'Phone'),
                   content: '+91 84420 83670\n+91 94608 02222',
                 },
                 {
                   icon: <Mail size={18} />,
-                  title: 'Email',
+                  title: t('contact.email_title', 'Email'),
                   content: 'ngbuild@gmail.com',
                 },
                 {
                   icon: <Clock size={18} />,
-                  title: 'Working Hours',
-                  content: 'Monday – Saturday\n10:00 AM – 7:00 PM',
+                  title: t('contact.working_hours', 'Working Hours'),
+                  content: t('contact.hours', 'Monday – Saturday\n10:00 AM – 7:00 PM'),
                 },
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-4 relative z-10">
@@ -79,42 +81,42 @@ export default function ContactPage() {
               transition={{ delay: 0.1 }}
               className="bg-white rounded-2xl border border-black/8 shadow-[0_4px_32px_rgba(0,0,0,0.06)] p-8 md:p-12"
             >
-              <h2 className="text-3xl font-serif font-medium text-charcoal mb-8">Send an Inquiry</h2>
+              <h2 className="text-3xl font-serif font-medium text-charcoal mb-8">{t('contact.send_inquiry', 'Send an Inquiry')}</h2>
               <form className="space-y-6" onSubmit={e => e.preventDefault()}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">Full Name</label>
+                    <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">{t('contact.name', 'Full Name')}</label>
                     <input type="text" className="form-input" required />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">Phone Number</label>
+                    <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">{t('contact.phone', 'Phone Number')}</label>
                     <input type="tel" className="form-input" required />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">Email Address</label>
+                    <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">{t('contact.email', 'Email Address')}</label>
                     <input type="email" className="form-input" required />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">Inquiry Type</label>
+                    <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">{t('contact.inquiry_type', 'Inquiry Type')}</label>
                     <select className="form-input appearance-none">
-                      <option>Buy a Property</option>
-                      <option>Schedule a Site Visit</option>
-                      <option>General Inquiry</option>
-                      <option>Careers</option>
+                      <option>{t('contact.type_buy', 'Buy a Property')}</option>
+                      <option>{t('contact.type_visit', 'Schedule a Site Visit')}</option>
+                      <option>{t('contact.type_general', 'General Inquiry')}</option>
+                      <option>{t('contact.type_careers', 'Careers')}</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">Message</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-2">{t('contact.message', 'Message')}</label>
                   <textarea rows={5} className="form-input resize-none" required />
                 </div>
 
                 <button type="submit" className="btn-gold w-full md:w-auto">
-                  Submit Inquiry
+                  {t('contact.submit', 'Submit Inquiry')}
                 </button>
               </form>
             </motion.div>
