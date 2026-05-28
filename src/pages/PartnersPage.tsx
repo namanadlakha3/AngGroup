@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Phone, Mail, Building, MessageCircle, Star } from 'lucide-react';
+import { useTranslation, Trans } from 'react-i18next';
 
 export default function PartnersPage() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen pt-24 pb-16">
       <div className="container mx-auto px-6">
@@ -9,13 +11,13 @@ export default function PartnersPage() {
         {/* Header */}
         <div className="text-center mb-12">
           <p className="section-label justify-center mb-4">
-            <span>Leadership</span>
+            <span>{t('partners.leadership', 'Leadership')}</span>
           </p>
           <h1 className="text-4xl md:text-5xl font-serif font-medium text-charcoal mb-4 leading-tight">
-            Our Partners
+            {t('partners.title', 'Our Partners')}
           </h1>
           <p className="text-charcoal-muted text-base font-light max-w-xl mx-auto">
-            Meet the visionaries behind AngGroup, driving innovation and excellence in luxury real estate.
+            {t('partners.desc', 'Meet the visionaries behind AngGroup, driving innovation and excellence in luxury real estate.')}
           </p>
         </div>
 
@@ -36,7 +38,7 @@ export default function PartnersPage() {
             {/* Mobile name overlay */}
             <div className="absolute bottom-4 left-5 md:hidden z-10">
               <h2 className="text-2xl font-serif text-charcoal drop-shadow-sm">Gopal Singh</h2>
-              <p className="text-gold text-[10px] uppercase tracking-widest font-bold mt-0.5">Director</p>
+              <p className="text-gold text-[10px] uppercase tracking-widest font-bold mt-0.5">{t('partners.director', 'Director')}</p>
             </div>
           </div>
 
@@ -45,32 +47,34 @@ export default function PartnersPage() {
 
             <div className="hidden md:block mb-5">
               <h2 className="text-3xl font-serif font-medium text-charcoal mb-1.5">Gopal Singh</h2>
-              <p className="text-gold text-[10px] uppercase tracking-widest font-bold">Director — Ang Group Builders &amp; Developers</p>
+              <p className="text-gold text-[10px] uppercase tracking-widest font-bold">{t('partners.director_full', 'Director — Ang Group Builders & Developers')}</p>
             </div>
 
             <div className="gold-divider mb-6" />
 
             {/* Tags */}
             <div className="flex flex-wrap gap-2 mb-6">
-              <span className="gold-chip">19+ Years Experience</span>
+              <span className="gold-chip">{t('partners.experience_tag', '19+ Years Experience')}</span>
               <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-50 border border-green-200 text-green-700 text-[10px] font-bold uppercase tracking-widest rounded-full">
-                <Star size={9} fill="currentColor" /> Real Estate Expert
+                <Star size={9} fill="currentColor" /> {t('partners.expert_tag', 'Real Estate Expert')}
               </span>
             </div>
 
             <p className="text-charcoal-muted text-sm leading-relaxed font-light mb-7">
-              Gopal Singh is a seasoned real estate professional with over{' '}
-              <strong className="text-charcoal font-semibold">19 years of experience</strong>{' '}
-              in the industry. He has guided hundreds of clients in making the right property investments with complete transparency and trust.
+              <Trans i18nKey="partners.gopal_desc">
+                Gopal Singh is a seasoned real estate professional with over{' '}
+                <strong className="text-charcoal font-semibold">19 years of experience</strong>{' '}
+                in the industry. He has guided hundreds of clients in making the right property investments with complete transparency and trust.
+              </Trans>
             </p>
 
             {/* Stats */}
             <div className="grid grid-cols-4 gap-2 mb-7">
               {[
-                { value: '19+', label: 'Years' },
-                { value: '500+', label: 'Clients' },
-                { value: '50+', label: 'Projects' },
-                { value: '100%', label: 'Legal' },
+                { value: '19+', label: t('partners.years', 'Years') },
+                { value: '500+', label: t('partners.clients', 'Clients') },
+                { value: '50+', label: t('partners.projects', 'Projects') },
+                { value: '100%', label: t('partners.legal', 'Legal') },
               ].map(stat => (
                 <div key={stat.label} className="text-center py-3 px-2 bg-ivory-100 rounded-xl border border-black/5">
                   <div className="text-xl font-serif font-medium text-gold mb-0.5">{stat.value}</div>
@@ -82,9 +86,9 @@ export default function PartnersPage() {
             {/* Contact */}
             <div className="space-y-2.5 mb-7 text-sm">
               {[
-                { icon: <Phone size={14} />, label: 'Mobile', value: '+91 84420 83670' },
-                { icon: <Building size={14} />, label: 'Office', value: '+91 94608 02222' },
-                { icon: <Mail size={14} />, label: 'Email', value: 'ngbuild@gmail.com' },
+                { icon: <Phone size={14} />, label: t('partners.mobile', 'Mobile'), value: '+91 84420 83670' },
+                { icon: <Building size={14} />, label: t('partners.office', 'Office'), value: '+91 94608 02222' },
+                { icon: <Mail size={14} />, label: t('partners.email', 'Email'), value: 'ngbuild@gmail.com' },
               ].map(c => (
                 <div key={c.label} className="flex items-center gap-3 text-charcoal-muted">
                   <span className="text-gold">{c.icon}</span>
@@ -97,7 +101,7 @@ export default function PartnersPage() {
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3">
               <a href="tel:+918442083670" className="btn-outline flex-1 justify-center">
-                <Phone size={14} /> Call Now
+                <Phone size={14} /> {t('partners.call_now', 'Call Now')}
               </a>
               <a
                 href="https://wa.me/918442083670"
@@ -105,7 +109,7 @@ export default function PartnersPage() {
                 rel="noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 py-3 px-5 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-full hover:bg-[#128C7E] transition-colors"
               >
-                <MessageCircle size={14} /> WhatsApp
+                <MessageCircle size={14} /> {t('partners.whatsapp', 'WhatsApp')}
               </a>
             </div>
 
@@ -115,7 +119,7 @@ export default function PartnersPage() {
         {/* Co-Directors Section */}
         <div className="mt-20">
           <div className="text-center mb-10">
-            <h3 className="text-3xl font-serif font-medium text-charcoal">Co-Directors</h3>
+            <h3 className="text-3xl font-serif font-medium text-charcoal">{t('partners.codirectors', 'Co-Directors')}</h3>
             <div className="w-12 h-1 bg-gold rounded-full mx-auto mt-4" />
           </div>
           
@@ -136,10 +140,10 @@ export default function PartnersPage() {
               </div>
               <div className="sm:w-3/5 p-6 flex flex-col justify-center">
                 <h3 className="text-2xl font-serif font-medium text-charcoal mb-1">Jitender Kataria</h3>
-                <p className="text-gold text-[9px] uppercase tracking-widest font-bold mb-4">Co-Director</p>
+                <p className="text-gold text-[9px] uppercase tracking-widest font-bold mb-4">{t('partners.codirector', 'Co-Director')}</p>
                 
                 <p className="text-charcoal-muted text-xs leading-relaxed font-light mb-5">
-                  Driving innovation and operational excellence to ensure every AngGroup project meets the highest standards of luxury, transparency, and architectural brilliance.
+                  {t('partners.jitender_desc', 'Driving innovation and operational excellence to ensure every AngGroup project meets the highest standards of luxury, transparency, and architectural brilliance.')}
                 </p>
 
                 <div className="space-y-2 text-xs mb-5">
@@ -151,7 +155,7 @@ export default function PartnersPage() {
 
                 <div className="flex gap-2">
                   <a href="tel:+917976923208" className="btn-outline flex-1 justify-center py-2 text-[10px]">
-                    <Phone size={12} /> Call
+                    <Phone size={12} /> {t('partners.call', 'Call')}
                   </a>
                   <a
                     href="https://wa.me/917976923208"
@@ -159,7 +163,7 @@ export default function PartnersPage() {
                     rel="noreferrer"
                     className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 bg-[#25D366] text-white font-bold text-[10px] uppercase tracking-widest rounded-full hover:bg-[#128C7E] transition-colors"
                   >
-                    <MessageCircle size={12} /> WhatsApp
+                    <MessageCircle size={12} /> {t('partners.whatsapp', 'WhatsApp')}
                   </a>
                 </div>
               </div>

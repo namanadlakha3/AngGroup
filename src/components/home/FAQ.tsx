@@ -1,28 +1,30 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import React from 'react';
-
-const faqs = [
-  {
-    question: 'How do I schedule a home tour?',
-    answer: 'Use the "Schedule a Tour" section to pick a date and time slot. Our team confirms the visit and shares the address and agent details.',
-  },
-  {
-    question: 'Are listings verified?',
-    answer: 'Yes, all our listings undergo a rigorous verification process checking legal documents and physical conditions before they are published.',
-  },
-  {
-    question: 'Do you help with loans and paperwork?',
-    answer: 'Absolutely. We have tied up with leading banks to provide quick home loan approvals, and our legal team handles all the documentation.',
-  },
-  {
-    question: 'Can I shortlist multiple properties?',
-    answer: 'Yes, you can browse and shortlist as many properties as you like, and we can schedule a combined site visit for all of them.',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = React.useState<number | null>(0);
+  const { t } = useTranslation();
+
+  const faqs = [
+    {
+      question: t('home.faq_q1', 'How do I schedule a home tour?'),
+      answer: t('home.faq_a1', 'Use the "Schedule a Tour" section to pick a date and time slot. Our team confirms the visit and shares the address and agent details.'),
+    },
+    {
+      question: t('home.faq_q2', 'Are listings verified?'),
+      answer: t('home.faq_a2', 'Yes, all our listings undergo a rigorous verification process checking legal documents and physical conditions before they are published.'),
+    },
+    {
+      question: t('home.faq_q3', 'Do you help with loans and paperwork?'),
+      answer: t('home.faq_a3', 'Absolutely. We have tied up with leading banks to provide quick home loan approvals, and our legal team handles all the documentation.'),
+    },
+    {
+      question: t('home.faq_q4', 'Can I shortlist multiple properties?'),
+      answer: t('home.faq_a4', 'Yes, you can browse and shortlist as many properties as you like, and we can schedule a combined site visit for all of them.'),
+    },
+  ];
 
   return (
     <section className="py-20 md:py-28">
@@ -30,13 +32,13 @@ export default function FAQ() {
 
         <div className="text-center mb-14">
           <p className="section-label justify-center mb-5">
-            <span>FAQ</span>
+            <span>{t('home.faq_label', 'FAQ')}</span>
           </p>
           <h2 className="text-4xl md:text-5xl font-serif font-medium text-charcoal mb-5 leading-tight">
-            Frequently Asked Questions
+            {t('home.faq_title', 'Frequently Asked Questions')}
           </h2>
           <p className="text-charcoal-muted text-lg font-light">
-            Quick answers about tours, listings, and how we work.
+            {t('home.faq_desc', 'Quick answers about tours, listings, and how we work.')}
           </p>
         </div>
 

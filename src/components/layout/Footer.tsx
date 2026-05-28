@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Globe, Share2, ExternalLink } from 'lucide-react';
 import Logo from '../ui/Logo';
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-charcoal text-white/70 relative overflow-hidden">
       {/* Subtle gold glow */}
@@ -15,7 +18,7 @@ export default function Footer() {
           <div className="space-y-5 md:col-span-1">
             <Logo className="text-white" />
             <p className="text-sm leading-relaxed text-white/50 max-w-xs mt-2">
-              Crafting timeless spaces inspired by the royal heritage of Jaipur. Where luxury meets legacy.
+              {t('footer.brand_desc', 'Crafting timeless spaces inspired by the royal heritage of Jaipur. Where luxury meets legacy.')}
             </p>
             <div className="flex gap-4 pt-1">
               <a href="#" aria-label="Instagram" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center hover:border-gold/50 hover:text-gold transition-all">
@@ -32,14 +35,14 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-6">Quick Links</h3>
+            <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-6">{t('footer.quick_links', 'Quick Links')}</h3>
             <ul className="space-y-3 text-sm">
               {[
-                { label: 'Home', path: '/' },
-                { label: 'Properties', path: '/properties' },
-                { label: 'Partners', path: '/partners' },
-                { label: 'About Us', path: '/about' },
-                { label: 'Contact', path: '/contact' },
+                { label: t('nav.home', 'Home'), path: '/' },
+                { label: t('nav.properties', 'Properties'), path: '/properties' },
+                { label: t('nav.partners', 'Partners'), path: '/partners' },
+                { label: t('nav.about', 'About Us'), path: '/about' },
+                { label: t('nav.contact', 'Contact'), path: '/contact' },
               ].map(l => (
                 <li key={l.path}>
                   <Link to={l.path} className="hover:text-gold transition-colors">{l.label}</Link>
@@ -50,9 +53,14 @@ export default function Footer() {
 
           {/* Properties */}
           <div>
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-6">Properties</h3>
+            <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-6">{t('footer.properties', 'Properties')}</h3>
             <ul className="space-y-3 text-sm">
-              {['Luxury Villas', 'Premium Apartments', 'Commercial Spaces', 'Ready to Move'].map(item => (
+              {[
+                t('footer.prop_luxury', 'Luxury Villas'),
+                t('footer.prop_premium', 'Premium Apartments'),
+                t('footer.prop_commercial', 'Commercial Spaces'),
+                t('footer.prop_ready', 'Ready to Move')
+              ].map(item => (
                 <li key={item}>
                   <Link to="/properties" className="hover:text-gold transition-colors">{item}</Link>
                 </li>
@@ -62,7 +70,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-6">Get in Touch</h3>
+            <h3 className="text-white font-semibold text-sm uppercase tracking-widest mb-6">{t('footer.get_in_touch', 'Get in Touch')}</h3>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
                 <MapPin size={16} className="text-gold shrink-0 mt-0.5" />
@@ -83,10 +91,10 @@ export default function Footer() {
         <div className="gold-divider mb-8" />
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/35">
-          <p>© {new Date().getFullYear()} AngGroup Real Estate. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} AngGroup Real Estate. {t('footer.rights', 'All rights reserved.')}</p>
           <div className="flex gap-6">
-            <Link to="/privacy" className="hover:text-gold transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-gold transition-colors">Terms of Service</Link>
+            <Link to="/privacy" className="hover:text-gold transition-colors">{t('footer.privacy', 'Privacy Policy')}</Link>
+            <Link to="/terms" className="hover:text-gold transition-colors">{t('footer.terms', 'Terms of Service')}</Link>
           </div>
         </div>
       </div>

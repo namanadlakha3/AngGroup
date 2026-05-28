@@ -4,8 +4,10 @@ import { supabase } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import { LogIn } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 export default function LoginPage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -36,11 +38,11 @@ export default function LoginPage() {
         </div>
         
         <h1 className="text-3xl font-serif font-medium text-charcoal mb-4">
-          Welcome Back
+          {t('login.welcome', 'Welcome Back')}
         </h1>
         
         <p className="text-charcoal-muted mb-8 font-light">
-          Sign in to your account to continue.
+          {t('login.sign_in', 'Sign in to your account to continue.')}
         </p>
 
         <button 
@@ -48,7 +50,7 @@ export default function LoginPage() {
           className="w-full flex items-center justify-center gap-3 bg-white border border-gray-200 text-charcoal py-3 px-6 rounded-full font-semibold hover:bg-gray-50 transition-colors shadow-sm"
         >
           <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
-          Sign in with Google
+          {t('login.google', 'Sign in with Google')}
         </button>
       </motion.div>
     </div>

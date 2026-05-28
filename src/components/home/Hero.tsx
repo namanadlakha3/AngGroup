@@ -1,18 +1,20 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Search, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-const stats = [
-  { value: '1,200+', label: 'Properties Listed' },
-  { value: '500+', label: 'Happy Clients' },
-  { value: '19+', label: 'Years of Trust' },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Hero() {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 140]);
   const opacity = useTransform(scrollY, [0, 280], [1, 0]);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const stats = [
+    { value: '1,200+', label: t('home.stat_properties', 'Properties Listed') },
+    { value: '500+', label: t('home.stat_clients', 'Happy Clients') },
+    { value: '19+', label: t('home.stat_years', 'Years of Trust') },
+  ];
 
   return (
     <section className="relative h-screen flex flex-col items-center overflow-hidden bg-charcoal">
@@ -50,7 +52,7 @@ export default function Hero() {
             style={{ color: '#E8C96A' }}
           >
             <span className="w-8 h-px bg-gold-glow inline-block opacity-60" />
-            Jaipur's Premier Real Estate
+            {t('home.hero_eyebrow', "Jaipur's Premier Real Estate")}
             <span className="w-8 h-px bg-gold-glow inline-block opacity-60" />
           </span>
         </motion.div>
@@ -61,8 +63,8 @@ export default function Hero() {
           transition={{ duration: 0.9, delay: 0.1 }}
           className="text-4xl md:text-6xl lg:text-7xl font-serif font-medium mb-6 leading-tight text-white max-w-4xl mx-auto"
         >
-          Find Your Perfect<br />
-          <span className="text-gradient-gold italic">Royal</span> Home
+          {t('home.hero_title_1', 'Find Your Perfect')}<br />
+          <span className="text-gradient-gold italic">{t('home.hero_title_royal', 'Royal')}</span> {t('home.hero_title_2', 'Home')}
         </motion.h1>
 
         <motion.p
@@ -71,7 +73,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.35 }}
           className="text-lg md:text-xl max-w-xl mx-auto mb-10 text-white/65 font-light tracking-wide"
         >
-          Premium plots, villas &amp; apartments in Jaipur — blending Rajasthani heritage with modern comfort.
+          {t('home.hero_desc', 'Premium plots, villas & apartments in Jaipur — blending Rajasthani heritage with modern comfort.')}
         </motion.p>
 
         {/* Search bar */}
@@ -86,24 +88,24 @@ export default function Hero() {
             className="flex flex-col md:flex-row bg-white/95 backdrop-blur-md rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.25)] border border-white/20"
           >
             <div className="flex-1 border-b md:border-b-0 md:border-r border-black/8 px-6 py-4">
-              <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">Location</label>
+              <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">{t('home.search_location', 'Location')}</label>
               <select className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none appearance-none cursor-pointer">
-                <option>Jaipur Properties</option>
+                <option>{t('home.search_loc_opt', 'Jaipur Properties')}</option>
               </select>
             </div>
             <div className="flex-1 border-b md:border-b-0 md:border-r border-black/8 px-6 py-4">
-              <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">Property Type</label>
+              <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">{t('home.search_type', 'Property Type')}</label>
               <select className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none appearance-none cursor-pointer">
-                <option>Plot</option>
-                <option>House</option>
-                <option>Apartment</option>
-                <option>Farmhouse</option>
+                <option>{t('home.search_type_plot', 'Plot')}</option>
+                <option>{t('home.search_type_house', 'House')}</option>
+                <option>{t('home.search_type_apartment', 'Apartment')}</option>
+                <option>{t('home.search_type_farmhouse', 'Farmhouse')}</option>
               </select>
             </div>
             <div className="flex-1 px-6 py-4">
-              <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">Budget</label>
+              <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">{t('home.search_budget', 'Budget')}</label>
               <select className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none appearance-none cursor-pointer">
-                <option>Select Range</option>
+                <option>{t('home.search_budget_opt', 'Select Range')}</option>
                 <option>Under ₹100L</option>
                 <option>₹100L – ₹250L</option>
                 <option>₹250L – ₹500L</option>
@@ -115,7 +117,7 @@ export default function Hero() {
               className="btn-gold"
               style={{ borderRadius: '0' }}
             >
-              <Search size={16} /> Explore
+              <Search size={16} /> {t('home.search_explore', 'Explore')}
             </button>
           </form>
         </motion.div>

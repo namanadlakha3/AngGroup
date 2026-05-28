@@ -1,24 +1,27 @@
 import { motion } from 'framer-motion';
-
-const testimonials = [
-  {
-    name: 'Aarav Sharma',
-    role: 'Home Buyer',
-    text: 'The listings were accurate and the tour booking was super quick. We found our home in two weekends.',
-  },
-  {
-    name: 'Nisha Verma',
-    role: 'Tenant',
-    text: 'Transparent pricing and helpful agents. The process felt simple and stress‑free from day one.',
-  },
-  {
-    name: 'Rahul Singh',
-    role: 'Investor',
-    text: 'Great local knowledge and honest advice. I appreciated the clear paperwork and fast follow‑ups.',
-  },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function Testimonials() {
+  const { t } = useTranslation();
+
+  const testimonials = [
+    {
+      name: 'Aarav Sharma',
+      role: t('home.test_role_buyer', 'Home Buyer'),
+      text: t('home.test_text_1', 'The listings were accurate and the tour booking was super quick. We found our home in two weekends.'),
+    },
+    {
+      name: 'Nisha Verma',
+      role: t('home.test_role_tenant', 'Tenant'),
+      text: t('home.test_text_2', 'Transparent pricing and helpful agents. The process felt simple and stress-free from day one.'),
+    },
+    {
+      name: 'Rahul Singh',
+      role: t('home.test_role_investor', 'Investor'),
+      text: t('home.test_text_3', 'Great local knowledge and honest advice. I appreciated the clear paperwork and fast follow-ups.'),
+    },
+  ];
+
   return (
     <section className="py-20 md:py-28 bg-charcoal relative overflow-hidden">
       {/* Decorative glow */}
@@ -30,18 +33,18 @@ export default function Testimonials() {
 
         <div className="text-center max-w-2xl mx-auto mb-16">
           <p className="section-label justify-center mb-5" style={{ color: '#D4A017' }}>
-            <span style={{ color: '#D4A017' }}>Client Stories</span>
+            <span style={{ color: '#D4A017' }}>{t('home.test_label', 'Client Stories')}</span>
           </p>
           <h2 className="text-4xl md:text-5xl font-serif font-medium text-white mb-5 leading-tight">
-            People Love Working<br />With ANG Group
+            {t('home.test_title_1', 'People Love Working')}<br />{t('home.test_title_2', 'With ANG Group')}
           </h2>
           <p className="text-white/60 text-lg font-light">
-            Real feedback from real clients — buying, renting, and investing made easier.
+            {t('home.test_desc', 'Real feedback from real clients — buying, renting, and investing made easier.')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((t, index) => (
+          {testimonials.map((testimonial, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 24 }}
@@ -53,15 +56,15 @@ export default function Testimonials() {
               {/* Gold quote mark */}
               <div className="text-6xl font-serif leading-none text-gold/30 mb-4">"</div>
               <p className="text-white/80 text-base leading-relaxed font-light mb-8 italic">
-                {t.text}
+                {testimonial.text}
               </p>
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-gold/20 border border-gold/30 flex items-center justify-center text-gold font-bold text-sm">
-                  {t.name[0]}
+                  {testimonial.name[0]}
                 </div>
                 <div>
-                  <div className="text-white font-semibold text-sm">{t.name}</div>
-                  <div className="text-gold/80 text-xs uppercase tracking-widest font-bold mt-0.5">{t.role}</div>
+                  <div className="text-white font-semibold text-sm">{testimonial.name}</div>
+                  <div className="text-gold/80 text-xs uppercase tracking-widest font-bold mt-0.5">{testimonial.role}</div>
                 </div>
               </div>
             </motion.div>

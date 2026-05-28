@@ -8,6 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import type { Property } from '../types/property';
+import { useTranslation } from 'react-i18next';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -57,6 +58,7 @@ function PropertyCard({ property, index, featured = false }: {
     ? `${property.locality}${property.city ? `, ${property.city}` : ''}`
     : property.location;
   const statusStyle = STATUS_COLORS[property.status] || STATUS_COLORS['Off Market'];
+  const { t } = useTranslation();
   const isPlot = property.type === 'Plot';
 
   return (
@@ -96,7 +98,7 @@ function PropertyCard({ property, index, featured = false }: {
           {property.transaction_type === 'Resale' && (
             <div className="absolute top-4 left-4">
               <span className="bg-white/90 backdrop-blur-sm text-charcoal text-[9px] font-bold uppercase tracking-[0.12em] px-2.5 py-1 rounded">
-                Resale
+                {t('props.resale', 'Resale')}
               </span>
             </div>
           )}
@@ -104,7 +106,7 @@ function PropertyCard({ property, index, featured = false }: {
           {/* Bottom: price overlaid on image for featured card */}
           {featured && (
             <div className="absolute bottom-5 left-5 right-5">
-              <div className="text-white/70 text-[10px] font-semibold uppercase tracking-[0.15em] mb-0.5">Asking Price</div>
+              <div className="text-white/70 text-[10px] font-semibold uppercase tracking-[0.15em] mb-0.5">{t('props.asking_price', 'Asking Price')}</div>
               <div className="text-white text-3xl font-serif flex items-baseline gap-1">
                 <IndianRupee size={18} strokeWidth={1.5} /> {property.price}
               </div>
@@ -115,7 +117,7 @@ function PropertyCard({ property, index, featured = false }: {
           {(property.gallery?.length ?? 0) > 1 && (
             <div className="absolute bottom-4 right-4 bg-black/50 backdrop-blur-sm text-white text-[10px] font-semibold px-2.5 py-1 rounded-full flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-white/70" />
-              {property.gallery!.length} Photos
+              {property.gallery!.length} {t('props.photos', 'Photos')}
             </div>
           )}
         </div>
@@ -157,13 +159,13 @@ function PropertyCard({ property, index, featured = false }: {
             {!isPlot && (property.bedrooms ?? 0) > 0 && (
               <span className="flex items-center gap-1.5 text-xs text-charcoal-muted font-medium">
                 <Bed size={13} className="text-gold/80" />
-                {property.bedrooms} Bed
+                {property.bedrooms} {t('props.bed', 'Bed')}
               </span>
             )}
             {!isPlot && (property.bathrooms ?? 0) > 0 && (
               <span className="flex items-center gap-1.5 text-xs text-charcoal-muted font-medium">
                 <Bath size={13} className="text-gold/80" />
-                {property.bathrooms} Bath
+                {property.bathrooms} {t('props.bath', 'Bath')}
               </span>
             )}
             {areaDisplay && (
@@ -174,14 +176,14 @@ function PropertyCard({ property, index, featured = false }: {
             )}
             {property.is_negotiable && (
               <span className="ml-auto text-[10px] font-bold text-emerald-600 uppercase tracking-wider">
-                Negotiable
+                {t('props.negotiable', 'Negotiable')}
               </span>
             )}
           </div>
 
           {/* CTA underline on hover */}
           <div className="mt-4 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-charcoal-muted group-hover:text-gold transition-colors duration-300">
-            View Details
+            {t('props.view_details', 'View Details')}
             <MoveRight size={13} className="transition-transform duration-300 group-hover:translate-x-1" />
           </div>
 
@@ -249,6 +251,7 @@ export default function PropertiesPage() {
   const [selectedStatus, setSelectedStatus] = useState('All');
   const [sortBy, setSortBy] = useState<SortOption>('newest');
   const [showFilters, setShowFilters] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     supabase
@@ -310,7 +313,7 @@ export default function PropertiesPage() {
               animate={{ opacity: 1, y: 0 }}
               className="section-label mb-6 justify-start"
             >
-              <span>Curated Portfolio</span>
+              <span>{t('props.curated', 'Curated Portfolio')}</span>
             </motion.p>
 
             <motion.h1
@@ -319,8 +322,8 @@ export default function PropertiesPage() {
               transition={{ delay: 0.05 }}
               className="text-5xl md:text-7xl font-serif font-medium text-charcoal leading-[1.05] mb-6"
             >
-              Exceptional<br />
-              <span className="text-gradient-gold italic">Properties</span>
+              {t('props.title_1', 'Exceptional')}<br />
+              <span className="text-gradient-gold italic">{t('props.title_2', 'Properties')}</span>
             </motion.h1>
 
             <motion.p
@@ -329,7 +332,7 @@ export default function PropertiesPage() {
               transition={{ delay: 0.1 }}
               className="text-charcoal-muted text-lg font-light max-w-xl leading-relaxed"
             >
-              Each listing hand-selected for its architectural merit, location, and investment potential.
+              {t('props.desc', 'Each listing hand-selected for its architectural merit, location, and investment potential.')}
             </motion.p>
           </div>
         </div>
@@ -345,7 +348,7 @@ export default function PropertiesPage() {
               <Search size={14} className="search-icon" style={{ color: '#B8860B' }} />
               <input
                 type="text"
-                placeholder="Search properties, cities, types..."
+                placeholder={t('props.search_placeholder', 'Search properties, cities, types...')}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="form-input text-sm"
@@ -362,9 +365,9 @@ export default function PropertiesPage() {
 
             {/* Type chips (scrollable) */}
             <div className="hidden md:flex items-center gap-2 overflow-x-auto hide-scrollbar flex-1">
-              {types.slice(0, 6).map(t => (
-                <FilterChip key={t} label={t === 'All' ? 'All Types' : `${TYPE_EMOJI[t] || ''} ${t}`}
-                  active={selectedType === t} onClick={() => setSelectedType(t)} />
+              {types.slice(0, 6).map(t_type => (
+                <FilterChip key={t_type} label={t_type === 'All' ? t('props.all_types', 'All Types') : `${TYPE_EMOJI[t_type] || ''} ${t_type}`}
+                  active={selectedType === t_type} onClick={() => setSelectedType(t_type)} />
               ))}
             </div>
 
@@ -378,7 +381,7 @@ export default function PropertiesPage() {
               }`}
             >
               <SlidersHorizontal size={14} />
-              <span className="hidden sm:inline">Filters</span>
+              <span className="hidden sm:inline">{t('props.filters', 'Filters')}</span>
               {hasFilters && (
                 <span className="w-4 h-4 bg-gold text-white rounded-full text-[9px] font-bold flex items-center justify-center leading-none">
                   {[selectedType !== 'All', selectedStatus !== 'All', !!searchQuery].filter(Boolean).length}
@@ -392,7 +395,7 @@ export default function PropertiesPage() {
                 className="form-input appearance-none text-xs font-semibold pr-7"
                 style={{ paddingTop: '9px', paddingBottom: '9px', paddingRight: '28px', paddingLeft: '12px', minWidth: '130px', background: 'white' }}>
                 {(Object.entries(SORT_LABELS) as [SortOption, string][]).map(([v, l]) => (
-                  <option key={v} value={v}>{l}</option>
+                  <option key={v} value={v}>{t(`props.sort_${v}`, l)}</option>
                 ))}
               </select>
               <ChevronDown size={12} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-charcoal-muted pointer-events-none" />
@@ -411,7 +414,7 @@ export default function PropertiesPage() {
               >
                 <div className="pt-3 pb-1 border-t border-black/5 mt-3 flex flex-wrap gap-x-8 gap-y-3">
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-charcoal-muted mb-2">Property Type</p>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-charcoal-muted mb-2">{t('props.prop_type', 'Property Type')}</p>
                     <div className="flex flex-wrap gap-2">
                       {types.map(t => (
                         <FilterChip key={t} label={t === 'All' ? 'All' : `${TYPE_EMOJI[t] || ''} ${t}`}
@@ -420,7 +423,7 @@ export default function PropertiesPage() {
                     </div>
                   </div>
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-charcoal-muted mb-2">Availability</p>
+                    <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-charcoal-muted mb-2">{t('props.availability', 'Availability')}</p>
                     <div className="flex flex-wrap gap-2">
                       {statuses.map(s => (
                         <FilterChip key={s} label={s === 'All' ? 'All' : `${STATUS_EMOJI[s] || ''} ${s}`}
@@ -440,7 +443,7 @@ export default function PropertiesPage() {
             <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
               <div className="container mx-auto px-6 md:px-10 pb-2.5 flex items-center gap-2 flex-wrap">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-charcoal-muted">Active:</span>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-charcoal-muted">{t('props.active_filters', 'Active:')}</span>
                 {searchQuery && (
                   <span className="inline-flex items-center gap-1.5 bg-gold/10 border border-gold/20 text-[11px] font-semibold text-amber-800 rounded-full px-3 py-0.5">
                     "{searchQuery}"
@@ -459,7 +462,7 @@ export default function PropertiesPage() {
                     <button onClick={() => setSelectedStatus('All')} className="opacity-60 hover:opacity-100"><X size={10} /></button>
                   </span>
                 )}
-                <button onClick={clearAll} className="text-[11px] text-charcoal-muted hover:text-red-500 transition-colors underline ml-1">Clear all</button>
+                <button onClick={clearAll} className="text-[11px] text-charcoal-muted hover:text-red-500 transition-colors underline ml-1">{t('props.clear_all', 'Clear all')}</button>
               </div>
             </motion.div>
           )}
@@ -472,8 +475,8 @@ export default function PropertiesPage() {
           <div className="flex items-center justify-between">
             <p className="text-sm text-charcoal-muted">
               <span className="font-semibold text-charcoal text-base">{filtered.length}</span>
-              {' '}{filtered.length === 1 ? 'property' : 'properties'}
-              {hasFilters && <span className="text-charcoal-muted"> · from {properties.length} total</span>}
+              {' '}{filtered.length === 1 ? t('props.property', 'property') : t('props.properties', 'properties')}
+              {hasFilters && <span className="text-charcoal-muted"> · {t('props.from_total', 'from {{total}} total', { total: properties.length })}</span>}
             </p>
             <div className="h-px flex-1 mx-6 bg-gradient-to-r from-transparent via-black/8 to-transparent" />
           </div>
@@ -495,11 +498,11 @@ export default function PropertiesPage() {
             <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
               <Building2 size={28} className="text-gray-300" />
             </div>
-            <h3 className="text-2xl font-serif text-charcoal mb-2">No results found</h3>
+            <h3 className="text-2xl font-serif text-charcoal mb-2">{t('props.no_results', 'No results found')}</h3>
             <p className="text-charcoal-muted text-sm mb-8 leading-relaxed">
-              No properties match your current filters. Try broadening your search.
+              {t('props.no_results_desc', 'No properties match your current filters. Try broadening your search.')}
             </p>
-            <button onClick={clearAll} className="btn-gold">Clear Filters</button>
+            <button onClick={clearAll} className="btn-gold">{t('props.clear_filters', 'Clear Filters')}</button>
           </motion.div>
         ) : (
           /* Masonry-style editorial grid */
