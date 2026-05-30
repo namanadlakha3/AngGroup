@@ -34,7 +34,7 @@ export default function FeaturedProperties() {
   if (isLoading) return null;
 
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-20 md:py-28 bg-white">
       <div className="container mx-auto px-6">
 
         {/* Section Header */}
@@ -49,7 +49,7 @@ export default function FeaturedProperties() {
           </div>
           <Link
             to="/properties"
-            className="group flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-charcoal/70 hover:text-gold transition-colors whitespace-nowrap"
+            className="group flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-charcoal/60 hover:text-[#C9A84C] transition-colors whitespace-nowrap"
           >
             {t('home.feat_view_all', 'View All')}
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
@@ -83,7 +83,7 @@ export default function FeaturedProperties() {
                     {property.type}
                   </div>
                   {/* Status badge – bottom left */}
-                  <div className="absolute bottom-4 left-4 bg-charcoal/80 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-[0.1em] px-3 py-1.5 rounded-full">
+                  <div className="absolute bottom-4 left-4 bg-[#1A1A1A]/85 backdrop-blur-sm text-[#E8D08A] text-[10px] font-bold uppercase tracking-[0.1em] px-3 py-1.5 rounded-full">
                     {property.status}
                   </div>
                 </div>
@@ -94,13 +94,13 @@ export default function FeaturedProperties() {
                     <h3 className="text-lg font-semibold text-charcoal group-hover:text-gold transition-colors leading-snug line-clamp-2">
                       {property.title}
                     </h3>
-                    <div className="text-lg font-bold text-gold whitespace-nowrap shrink-0">
+                    <div className="text-lg font-bold text-[#C9A84C] whitespace-nowrap shrink-0">
                       {property.price}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-1.5 text-charcoal-muted text-sm mb-5">
-                    <MapPin size={13} className="text-gold shrink-0" />
+                    <MapPin size={13} className="text-[#C9A84C] shrink-0" />
                     <span className="truncate">{property.location}</span>
                   </div>
 

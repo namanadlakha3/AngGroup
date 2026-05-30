@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone } from 'lucide-react';
 import clsx from 'clsx';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../ui/Logo';
@@ -29,10 +29,9 @@ export default function Navbar() {
   const navLinks = [
     { name: t('nav.home', 'Home'), path: '/' },
     { name: t('nav.properties', 'Properties'), path: '/properties' },
-    { name: t('nav.partners', 'Partners'), path: '/partners' },
     { name: t('nav.about', 'About Us'), path: '/about' },
     { name: t('nav.contact', 'Contact'), path: '/contact' },
-    ...(profile?.role === 'admin' ? [{ name: t('nav.admin', 'Admin Dashboard'), path: '/admin' }] : []),
+    ...(profile?.role === 'admin' ? [{ name: t('nav.admin', 'Admin'), path: '/admin' }] : []),
   ];
 
   const solidNav = isScrolled || !isHome;
@@ -42,71 +41,78 @@ export default function Navbar() {
       <div className={clsx(
         'transition-all duration-500 w-full',
         solidNav
-          ? 'bg-charcoal/95 backdrop-blur-md border-b border-white/10 px-6 py-4'
-          : 'container mx-auto px-6 py-6'
+          ? 'bg-[#1A1A1A]/97 backdrop-blur-md border-b border-[#C9A84C]/15 shadow-[0_1px_24px_rgba(0,0,0,0.25)]'
+          : 'bg-transparent'
       )}>
-        <div className="flex justify-between items-center max-w-7xl mx-auto">
-          <Link to="/" className="z-50">
-            <Logo className="text-white drop-shadow-lg" />
+        <div className="flex justify-between items-center max-w-7xl mx-auto px-6 md:px-10 py-4">
+          
+          {/* Logo */}
+          <Link to="/" className="z-50 shrink-0">
+            <Logo className="drop-shadow-md" />
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={clsx(
-                  'text-xs font-semibold uppercase tracking-[0.12em] transition-colors duration-200 relative group',
-                  solidNav
-                    ? location.pathname === link.path
-                      ? 'text-gold'
-                      : 'text-white/85 hover:text-white'
-                    : location.pathname === link.path
-                      ? 'text-gold-glow'
-                      : 'text-white/85 hover:text-white'
-                )}
+          <nav className="hidden md:flex items-center gap-7">
+            {navLinks.map((link) => {
+              const isActive = location.pathname === link.path;
+              return (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={clsx(
+                    'relative text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors duration-200 group',
+                    isActive
+                      ? 'text-[#E8D08A]'
+                      : 'text-white/75 hover:text-white'
+                  )}
+                >
+                  {link.name}
+                  {/* Active/hover underline */}
+                  <span className={clsx(
+                    'absolute -bottom-1 left-0 h-px transition-all duration-300',
+                    isActive
+                      ? 'w-full bg-[#C9A84C]'
+                      : 'w-0 group-hover:w-full bg-[#C9A84C]/60'
+                  )} />
+                </Link>
+              );
+            })}
+
+            {/* Phone CTA */}
+            <a
+              href="tel:+918442083670"
+              className="hidden lg:flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#E8D08A]/80 hover:text-[#E8D08A] transition-colors border-l border-white/10 pl-6 ml-1"
+            >
+              <Phone size={13} />
+              +91 84420 83670
+            </a>
+
+            {/* Auth */}
+            {user ? (
+              <button
+                onClick={signOut}
+                className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/60 hover:text-white transition-colors"
               >
-              {link.name}
-              <span className={clsx(
-                'absolute -bottom-1 left-0 h-px w-0 group-hover:w-full transition-all duration-300',
-                solidNav ? 'bg-gold' : 'bg-gold-glow'
-              )} />
-            </Link>
-          ))}
-          {user ? (
-            <button
-              onClick={signOut}
-              className={clsx(
-                'btn-gold text-xs py-2.5 px-6',
-                !solidNav && 'shadow-[0_4px_20px_rgba(0,0,0,0.25)]'
-              )}
-            >
-              {t('nav.sign_out', 'Sign Out')}
-            </button>
-          ) : (
-            <Link
-              to="/login"
-              className={clsx(
-                'text-xs font-semibold uppercase tracking-[0.12em] transition-colors duration-200',
-                solidNav ? 'text-white/85 hover:text-white' : 'text-white/85 hover:text-white'
-              )}
-            >
-              {t('nav.login', 'Login')}
-            </Link>
-          )}
-          <LanguageSwitcher />
-        </nav>
+                {t('nav.sign_out', 'Sign Out')}
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/60 hover:text-white transition-colors"
+              >
+                {t('nav.login', 'Login')}
+              </Link>
+            )}
+            <LanguageSwitcher />
+          </nav>
 
           {/* Mobile hamburger */}
           <button
             className={clsx(
-              'md:hidden z-50 w-10 h-10 flex items-center justify-center rounded-full transition-colors',
+              'md:hidden z-50 w-10 h-10 flex items-center justify-center rounded-full transition-all',
               isMobileMenuOpen
-                ? 'bg-gold/10 text-charcoal'
-                : solidNav
-                  ? 'text-charcoal'
-                  : 'text-white'
+                ? 'bg-[#C9A84C]/10 text-[#E8D08A]'
+                : 'text-white'
             )}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -119,13 +125,15 @@ export default function Navbar() {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-ivory-50"
+            className="fixed inset-0 z-40 bg-[#1A1A1A]"
           >
             <div className="flex flex-col items-center justify-center h-full gap-8">
+              {/* Gold line decoration */}
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A84C]/50 to-transparent mb-4" />
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.name}
@@ -138,8 +146,8 @@ export default function Navbar() {
                     className={clsx(
                       'text-3xl font-serif transition-colors',
                       location.pathname === link.path
-                        ? 'text-gold'
-                        : 'text-charcoal hover:text-gold'
+                        ? 'text-[#E8D08A]'
+                        : 'text-white/80 hover:text-[#E8D08A]'
                     )}
                   >
                     {link.name}
@@ -150,20 +158,28 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navLinks.length * 0.07 }}
+                className="flex flex-col items-center gap-4 mt-4"
               >
+                <a
+                  href="tel:+918442083670"
+                  className="flex items-center gap-2 text-[#E8D08A] font-bold uppercase tracking-widest text-xs"
+                >
+                  <Phone size={14} /> +91 84420 83670
+                </a>
                 {user ? (
-                  <button onClick={signOut} className="btn-gold mt-4">
+                  <button onClick={signOut} className="btn-gold mt-2">
                     {t('nav.sign_out', 'Sign Out')}
                   </button>
                 ) : (
-                  <Link to="/login" className="btn-gold mt-4">
+                  <Link to="/login" className="btn-gold mt-2">
                     {t('nav.login', 'Login')}
                   </Link>
                 )}
-                <div className="mt-8 flex justify-center">
+                <div className="mt-4 flex justify-center">
                   <LanguageSwitcher />
                 </div>
               </motion.div>
+              <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#C9A84C]/50 to-transparent mt-4" />
             </div>
           </motion.div>
         )}

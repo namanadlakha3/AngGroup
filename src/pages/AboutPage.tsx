@@ -112,11 +112,10 @@ export default function AboutPage() {
           </div>
 
           {/* Co-Directors */}
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="max-w-3xl mx-auto">
               {/* Jitender Kataria Card */}
               <div className="flex flex-col sm:flex-row items-stretch bg-white rounded-xl border border-black/6 shadow-sm hover:shadow-[0_4px_24px_rgba(0,0,0,0.06)] transition-all overflow-hidden">
-                <div className="sm:w-2/5 relative min-h-[200px] sm:min-h-0 flex-shrink-0 bg-ivory-50 border-b sm:border-b-0 sm:border-r border-black/6">
+                <div className="sm:w-2/5 relative min-h-[200px] sm:min-h-[280px] flex-shrink-0 bg-ivory-50 border-b sm:border-b-0 sm:border-r border-black/6">
                   <img
                     src="/jitender-kataria.png"
                     alt="Jitender Kataria – Co-Director"
@@ -134,9 +133,6 @@ export default function AboutPage() {
                   </p>
                 </div>
               </div>
-              
-              {/* Future Co-directors can be added here */}
-            </div>
           </div>
         </div>
       </section>

@@ -3,6 +3,7 @@ import FeaturedProperties from '../components/home/FeaturedProperties';
 import WhyChooseUs from '../components/home/WhyChooseUs';
 import Testimonials from '../components/home/Testimonials';
 import FAQ from '../components/home/FAQ';
+import CTA from '../components/home/CTA';
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <FeaturedProperties />
       <Testimonials />
       <FAQ />
+      <CTA />
     </div>
   );
 }

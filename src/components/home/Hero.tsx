@@ -106,10 +106,11 @@ export default function Hero() {
               <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gold mb-1.5">{t('home.search_budget', 'Budget')}</label>
               <select className="w-full bg-transparent text-charcoal font-semibold text-sm focus:outline-none appearance-none cursor-pointer">
                 <option>{t('home.search_budget_opt', 'Select Range')}</option>
-                <option>Under ₹100L</option>
-                <option>₹100L – ₹250L</option>
-                <option>₹250L – ₹500L</option>
-                <option>₹500L+</option>
+                <option>Under ₹20 Lakh</option>
+                <option>₹20L – ₹30L</option>
+                <option>₹30L – ₹60L</option>
+                <option>₹60L – ₹1 Cr</option>
+                <option>Above ₹1 Cr</option>
               </select>
             </div>
             <button
