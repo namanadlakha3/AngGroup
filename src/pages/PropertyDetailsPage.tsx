@@ -265,7 +265,7 @@ export default function PropertyDetailsPage() {
                   <button key={i} onClick={() => setActiveImage(i)}
                     className={`relative shrink-0 w-28 md:w-36 aspect-[4/3] overflow-hidden rounded-xl border-2 transition-all duration-200 ${
                       activeImage === i
-                        ? 'border-gold shadow-[0_4px_12px_rgba(184,134,11,0.2)]'
+                        ? 'border-[#C9A84C] shadow-[0_4px_12px_rgba(201,168,76,0.25)]'
                         : 'border-transparent opacity-60 hover:opacity-100'
                     }`}>
                     <img src={img} alt={`Thumbnail ${i + 1}`} className="w-full h-full object-cover" />
@@ -289,7 +289,7 @@ export default function PropertyDetailsPage() {
 
             {/* Highlighted Features */}
             {property.highlighted_features && property.highlighted_features.length > 0 && (
-              <div className="bg-gradient-to-br from-gold/5 to-transparent border border-gold/20 rounded-2xl p-6">
+              <div className="bg-gradient-to-br from-[#C9A84C]/8 to-transparent border border-[#C9A84C]/20 rounded-2xl p-6">
                 <h2 className="text-lg font-semibold text-charcoal mb-4 flex items-center gap-2">
                   <Sparkles size={18} className="text-gold" /> {t('details.highlights', 'Key Highlights')}
                 </h2>
@@ -378,7 +378,7 @@ export default function PropertyDetailsPage() {
           <div className="lg:col-span-1">
             <div className="sticky top-28 space-y-4">
               {/* Contact card */}
-              <div className="bg-white rounded-2xl border border-black/8 shadow-[0_4px_32px_rgba(0,0,0,0.08)] p-7">
+              <div className="bg-white rounded-2xl border border-[#C9A84C]/15 shadow-[0_4px_32px_rgba(0,0,0,0.08)] p-7">
                 <h3 className="text-2xl font-serif font-medium text-charcoal mb-1">{t('details.interested', 'Interested?')}</h3>
                 <p className="text-charcoal-muted text-sm mb-6 font-light">{t('details.schedule', 'Schedule a private viewing or request a callback.')}</p>
 
@@ -473,7 +473,7 @@ export default function PropertyDetailsPage() {
               )}
 
               {/* Price breakdown mini-card */}
-              <div className="bg-gold/5 border border-gold/20 rounded-2xl p-5">
+              <div className="bg-[#C9A84C]/6 border border-[#C9A84C]/20 rounded-2xl p-5">
                 <h4 className="text-sm font-semibold text-charcoal mb-3 flex items-center gap-2">
                   <IndianRupee size={14} className="text-gold" /> {t('details.price_summary', 'Price Summary')}
                 </h4>

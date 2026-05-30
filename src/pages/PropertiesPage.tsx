@@ -137,7 +137,7 @@ function PropertyCard({ property, index, featured = false }: {
           </div>
 
           {/* Title */}
-          <h3 className={`font-serif text-charcoal leading-snug mb-3 group-hover:text-gold transition-colors duration-300 ${featured ? 'text-2xl' : 'text-lg'}`}>
+          <h3 className={`font-serif text-charcoal leading-snug mb-3 group-hover:text-[#C9A84C] transition-colors duration-300 ${featured ? 'text-2xl' : 'text-lg'}`}>
             {property.title}
           </h3>
 
@@ -145,8 +145,8 @@ function PropertyCard({ property, index, featured = false }: {
           {!featured && (
             <div className="mb-3">
               <div className="flex items-baseline gap-1">
-                <IndianRupee size={13} className="text-gold" strokeWidth={2.5} />
-                <span className="text-xl font-serif text-gold">{property.price}</span>
+                <IndianRupee size={13} className="text-[#C9A84C]" strokeWidth={2.5} />
+                <span className="text-xl font-serif text-[#C9A84C]">{property.price}</span>
               </div>
               {property.price_per_sqft && (
                 <div className="text-xs text-charcoal-muted mt-0.5">{property.price_per_sqft}</div>
@@ -230,8 +230,8 @@ function FilterChip({ label, active, onClick }: { label: string; active: boolean
       onClick={onClick}
       className={`px-4 py-1.5 text-xs font-semibold rounded-full border transition-all duration-200 whitespace-nowrap ${
         active
-          ? 'bg-charcoal text-gold border-charcoal shadow-sm'
-          : 'bg-transparent text-charcoal-muted border-black/10 hover:border-gold/40 hover:text-charcoal'
+          ? 'bg-[#1A1A1A] text-[#E8D08A] border-[#1A1A1A] shadow-sm'
+          : 'bg-transparent text-charcoal-muted border-black/10 hover:border-[#C9A84C]/40 hover:text-charcoal'
       }`}
     >
       {label}
@@ -376,8 +376,8 @@ export default function PropertiesPage() {
               onClick={() => setShowFilters(v => !v)}
               className={`flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-lg border transition-all shrink-0 ${
                 showFilters || hasFilters
-                  ? 'bg-charcoal text-gold border-charcoal'
-                  : 'border-black/10 text-charcoal-muted hover:border-gold/40 hover:text-charcoal'
+                  ? 'bg-[#1A1A1A] text-[#E8D08A] border-[#1A1A1A]'
+                  : 'border-black/10 text-charcoal-muted hover:border-[#C9A84C]/40 hover:text-charcoal'
               }`}
             >
               <SlidersHorizontal size={14} />

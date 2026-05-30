@@ -40,7 +40,6 @@ export default function Footer() {
               {[
                 { label: t('nav.home', 'Home'), path: '/' },
                 { label: t('nav.properties', 'Properties'), path: '/properties' },
-                { label: t('nav.partners', 'Partners'), path: '/partners' },
                 { label: t('nav.about', 'About Us'), path: '/about' },
                 { label: t('nav.contact', 'Contact'), path: '/contact' },
               ].map(l => (
