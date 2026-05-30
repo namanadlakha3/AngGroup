@@ -27,7 +27,7 @@ export default function CTA() {
             className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.22em] text-[#C9A84C] mb-8"
           >
             <span className="w-8 h-px bg-[#C9A84C]/50" />
-            Ready to Take the Next Step?
+            {t('home.cta_label_new', 'Ready to Take the Next Step?')}
             <span className="w-8 h-px bg-[#C9A84C]/50" />
           </motion.div>
 
@@ -39,7 +39,7 @@ export default function CTA() {
             className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-white mb-6 leading-tight"
           >
             {t('home.cta_title', 'Still Thinking?')}{' '}
-            <span className="text-gradient-gold italic">One Call Can Change That.</span>
+            <span className="text-gradient-gold italic">{t('home.cta_title_highlight', 'One Call Can Change That.')}</span>
           </motion.h2>
 
           <motion.p
@@ -88,9 +88,9 @@ export default function CTA() {
             className="mt-14 pt-10 border-t border-white/8 grid grid-cols-3 gap-6 max-w-lg mx-auto"
           >
             {[
-              { value: '19+', label: 'Years of Trust' },
-              { value: '500+', label: 'Happy Clients' },
-              { value: '0', label: 'Broker Charges' },
+              { value: '19+', label: t('home.cta_stat_years', 'Years of Trust') },
+              { value: '500+', label: t('home.cta_stat_clients', 'Happy Clients') },
+              { value: '0', label: t('home.cta_stat_broker', 'Broker Charges') },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-2xl md:text-3xl font-serif font-medium text-[#E8D08A] mb-1">{stat.value}</div>
