@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   MapPin, Search, Bed, Bath, SlidersHorizontal,
-  X, ChevronDown, IndianRupee, Ruler,
+  X, ChevronDown, Ruler,
   MoveRight, Building2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
