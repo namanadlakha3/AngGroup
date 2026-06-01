@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import {
   Calculator, IndianRupee, TrendingUp, Calendar, Percent,
-  ChevronDown, ChevronUp, Download, RefreshCw, Info
+  ChevronDown, ChevronUp, RefreshCw, Info
 } from 'lucide-react';
 
 /* ─────────────── helpers ─────────────── */
@@ -201,15 +201,15 @@ export default function EMICalculatorPage() {
 
   /* ── number input with clamp ── */
   const numInput = (
-    label: string,
     value: number,
     set: (v: number) => void,
     min: number,
     max: number,
     prefix?: string,
     suffix?: string,
+    widthClass?: string,
   ) => (
-    <div className="flex items-center gap-2 bg-black/4 rounded-lg px-3 py-2 border border-black/6 focus-within:border-[#C9A84C]/50 transition-colors">
+    <div className={`flex items-center gap-2 bg-black/4 rounded-lg px-3 py-2 border border-black/6 focus-within:border-[#C9A84C]/50 transition-colors shrink-0 ${widthClass || 'w-24'}`}>
       {prefix && <span className="text-[#C9A84C] font-bold text-sm shrink-0">{prefix}</span>}
       <input
         type="number"
@@ -274,7 +274,7 @@ export default function EMICalculatorPage() {
                     {t('emi.property_price', 'Property Price')}
                   </span>
                 </div>
-                {numInput('', propertyPrice, setPropertyPrice, 500000, 100000000, '₹')}
+                {numInput(propertyPrice, setPropertyPrice, 500000, 100000000, '₹', undefined, 'w-36')}
               </div>
               <Slider
                 min={500000} max={100000000} step={100000}
@@ -299,7 +299,7 @@ export default function EMICalculatorPage() {
                     {t('emi.down_payment', 'Down Payment')}
                   </span>
                 </div>
-                {numInput('', downPaymentPct, setDownPaymentPct, 5, 90, undefined, '%')}
+                {numInput(downPaymentPct, setDownPaymentPct, 5, 90, undefined, '%', 'w-24')}
               </div>
               <Slider
                 min={5} max={90} step={1}
@@ -336,7 +336,7 @@ export default function EMICalculatorPage() {
                     {t('emi.interest_rate', 'Interest Rate (p.a.)')}
                   </span>
                 </div>
-                {numInput('', interestRate, setInterestRate, 1, 20, undefined, '%')}
+                {numInput(interestRate, setInterestRate, 1, 20, undefined, '%', 'w-24')}
               </div>
               <Slider
                 min={1} max={20} step={0.1}
@@ -374,7 +374,7 @@ export default function EMICalculatorPage() {
                     {t('emi.tenure', 'Loan Tenure')}
                   </span>
                 </div>
-                {numInput('', tenureYears, setTenureYears, 1, 30, undefined, t('emi.years', 'yrs'))}
+                {numInput(tenureYears, setTenureYears, 1, 30, undefined, t('emi.years', 'yrs'), 'w-28')}
               </div>
               <Slider
                 min={1} max={30} step={1}
@@ -439,7 +439,7 @@ export default function EMICalculatorPage() {
                               {t('emi.processing_fee_desc', 'One-time fee charged by the lender')}
                             </p>
                           </div>
-                          {numInput('', processingFeeRate, setProcessingFeeRate, 0, 3, undefined, '%')}
+                          {numInput(processingFeeRate, setProcessingFeeRate, 0, 3, undefined, '%', 'w-32')}
                         </div>
                         <Slider
                           min={0} max={3} step={0.1}
