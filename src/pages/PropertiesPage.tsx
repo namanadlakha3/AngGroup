@@ -107,8 +107,8 @@ function PropertyCard({ property, index, featured = false }: {
           {featured && (
             <div className="absolute bottom-5 left-5 right-5">
               <div className="text-white/70 text-[10px] font-semibold uppercase tracking-[0.15em] mb-0.5">{t('props.asking_price', 'Asking Price')}</div>
-              <div className="text-white text-3xl font-serif flex items-baseline gap-1">
-                <IndianRupee size={18} strokeWidth={1.5} /> {property.price}
+              <div className="text-white text-2xl font-sans font-bold flex items-baseline">
+                {property.price}
               </div>
             </div>
           )}
@@ -144,9 +144,8 @@ function PropertyCard({ property, index, featured = false }: {
           {/* Price (non-featured) */}
           {!featured && (
             <div className="mb-3">
-              <div className="flex items-baseline gap-1">
-                <IndianRupee size={13} className="text-[#C9A84C]" strokeWidth={2.5} />
-                <span className="text-xl font-serif text-[#C9A84C]">{property.price}</span>
+              <div className="flex items-baseline">
+                <span className="text-xl font-sans font-bold text-[#C9A84C]">{property.price}</span>
               </div>
               {property.price_per_sqft && (
                 <div className="text-xs text-charcoal-muted mt-0.5">{property.price_per_sqft}</div>

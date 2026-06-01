@@ -29,6 +29,7 @@ export default function Navbar() {
   const navLinks = [
     { name: t('nav.home', 'Home'), path: '/' },
     { name: t('nav.properties', 'Properties'), path: '/properties' },
+    { name: t('nav.emi', 'EMI Calc'), path: '/emi-calculator' },
     { name: t('nav.about', 'About Us'), path: '/about' },
     { name: t('nav.contact', 'Contact'), path: '/contact' },
     ...(profile?.role === 'admin' ? [{ name: t('nav.admin', 'Admin'), path: '/admin' }] : []),
@@ -60,7 +61,7 @@ export default function Navbar() {
                   key={link.name}
                   to={link.path}
                   className={clsx(
-                    'relative text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors duration-200 group',
+                    'relative text-xs font-semibold uppercase tracking-[0.14em] transition-colors duration-200 group',
                     isActive
                       ? 'text-[#E8D08A]'
                       : 'text-white/75 hover:text-white'
@@ -78,27 +79,18 @@ export default function Navbar() {
               );
             })}
 
-            {/* Phone CTA */}
-            <a
-              href="tel:+918442083670"
-              className="hidden lg:flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#E8D08A]/80 hover:text-[#E8D08A] transition-colors border-l border-white/10 pl-6 ml-1"
-            >
-              <Phone size={13} />
-              +91 84420 83670
-            </a>
-
             {/* Auth */}
             {user ? (
               <button
                 onClick={signOut}
-                className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/60 hover:text-white transition-colors"
+                className="text-xs font-bold uppercase tracking-[0.14em] text-white/60 hover:text-white transition-colors border-l border-white/10 pl-6 ml-1"
               >
                 {t('nav.sign_out', 'Sign Out')}
               </button>
             ) : (
               <Link
                 to="/login"
-                className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/60 hover:text-white transition-colors"
+                className="text-xs font-bold uppercase tracking-[0.14em] text-white/60 hover:text-white transition-colors border-l border-white/10 pl-6 ml-1"
               >
                 {t('nav.login', 'Login')}
               </Link>
@@ -160,12 +152,6 @@ export default function Navbar() {
                 transition={{ delay: navLinks.length * 0.07 }}
                 className="flex flex-col items-center gap-4 mt-4"
               >
-                <a
-                  href="tel:+918442083670"
-                  className="flex items-center gap-2 text-[#E8D08A] font-bold uppercase tracking-widest text-xs"
-                >
-                  <Phone size={14} /> +91 84420 83670
-                </a>
                 {user ? (
                   <button onClick={signOut} className="btn-gold mt-2">
                     {t('nav.sign_out', 'Sign Out')}
