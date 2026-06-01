@@ -9,6 +9,7 @@ import ScrollToTop from './components/ui/ScrollToTop';
 
 import LoginPage from './pages/LoginPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import EMICalculatorPage from './pages/EMICalculatorPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="properties/:id" element={<PropertyDetailsPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />
+          <Route path="emi-calculator" element={<EMICalculatorPage />} />
           
           {/* Auth Route */}
           <Route path="login" element={<LoginPage />} />

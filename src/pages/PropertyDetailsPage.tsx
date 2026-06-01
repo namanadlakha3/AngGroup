@@ -4,9 +4,9 @@ import {
   MapPin, Bed, Bath, Check, ArrowLeft, Phone,
   MessageCircle, Ruler, IndianRupee, ChevronLeft, ChevronRight,
   X, Shield, Zap, Droplets, Car, Star, Home, Building2,
-  Calendar, Compass, Tag, Sparkles
+  Calendar, Compass, Tag, Sparkles, Calculator, ChevronDown, ChevronUp, Info
 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { supabase } from '../lib/supabase';
 import type { Property } from '../types/property';
 import { useTranslation } from 'react-i18next';
@@ -87,6 +87,202 @@ function SpecRow({ icon, label, value, t }: { icon: React.ReactNode; label: stri
         {label}
       </div>
       <span className="text-sm font-semibold text-charcoal text-right max-w-[60%]">{displayValue}</span>
+    </div>
+  );
+}
+
+// ─── Inline EMI Calculator ────────────────────────────────────────────────────
+
+function calcEMI(principal: number, annualRate: number, months: number): number {
+  if (principal <= 0 || months <= 0) return 0;
+  if (annualRate === 0) return principal / months;
+  const r = annualRate / 12 / 100;
+  return (principal * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
+}
+
+const fmtINR = (n: number) =>
+  new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(n));
+
+const fmtLakhs = (n: number) => {
+  if (n >= 10_000_000) return `₹${(n / 10_000_000).toFixed(2)} Cr`;
+  if (n >= 100_000) return `₹${(n / 100_000).toFixed(2)} L`;
+  return `₹${fmtINR(n)}`;
+};
+
+interface InlineSliderProps {
+  min: number; max: number; step: number; value: number;
+  onChange: (v: number) => void; color?: string;
+}
+function InlineSlider({ min, max, step, value, onChange, color = '#C9A84C' }: InlineSliderProps) {
+  const pct = ((value - min) / (max - min)) * 100;
+  return (
+    <div className="relative w-full h-5 flex items-center group">
+      <div className="absolute w-full h-1 rounded-full bg-black/8" />
+      <div className="absolute h-1 rounded-full" style={{ width: `${pct}%`, background: color }} />
+      <input type="range" min={min} max={max} step={step} value={value}
+        onChange={e => onChange(Number(e.target.value))}
+        className="absolute w-full opacity-0 cursor-pointer h-full z-10" />
+      <div className="absolute w-4 h-4 rounded-full border-2 bg-white shadow-sm transition-all group-hover:scale-110"
+        style={{ left: `calc(${pct}% - ${pct * 0.16}px)`, borderColor: color, boxShadow: `0 2px 6px ${color}44` }} />
+    </div>
+  );
+}
+
+function InlineEMICalculator({ price, t }: { price?: number; t: any }) {
+  const [open, setOpen] = useState(false);
+  const [downPct, setDownPct] = useState(20);
+  const [rate, setRate] = useState(8.5);
+  const [tenure, setTenure] = useState(15);
+
+  const propertyPrice = price ?? 0;
+  const loanAmt = useMemo(() => propertyPrice * (1 - downPct / 100), [propertyPrice, downPct]);
+  const months = tenure * 12;
+  const emi = useMemo(() => calcEMI(loanAmt, rate, months), [loanAmt, rate, months]);
+  const totalPay = emi * months;
+  const totalInt = totalPay - loanAmt;
+
+  if (!propertyPrice) return null;
+
+  return (
+    <div className="bg-white rounded-2xl border border-[#C9A84C]/15 overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.06)]">
+      {/* Header toggle */}
+      <button
+        onClick={() => setOpen(v => !v)}
+        className="w-full flex items-center justify-between px-5 py-4 hover:bg-[#C9A84C]/4 transition-colors"
+      >
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-[#C9A84C]/10 flex items-center justify-center">
+            <Calculator size={13} className="text-[#C9A84C]" />
+          </div>
+          <span className="text-sm font-semibold text-charcoal">
+            {t('emi.title', 'EMI Calculator')}
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          {!open && emi > 0 && (
+            <span className="text-xs font-bold text-[#C9A84C]">
+              ~{fmtLakhs(emi)}/mo
+            </span>
+          )}
+          {open ? <ChevronUp size={15} className="text-charcoal-muted" /> : <ChevronDown size={15} className="text-charcoal-muted" />}
+        </div>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="border-t border-black/5"
+          >
+            <div className="p-5 space-y-5">
+              {/* Property Price (read-only) */}
+              <div className="bg-[#1A1A1A]/4 rounded-xl px-4 py-3 flex items-center justify-between">
+                <span className="text-xs text-charcoal-muted font-medium">
+                  {t('emi.property_price', 'Property Price')}
+                </span>
+                <span className="text-sm font-bold text-charcoal">{fmtLakhs(propertyPrice)}</span>
+              </div>
+
+              {/* Down Payment */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs font-semibold text-charcoal-muted">
+                    {t('emi.down_payment', 'Down Payment')}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-charcoal-muted">{fmtLakhs(loanAmt)} {t('emi.loan_amt', 'loan')}</span>
+                    <span className="text-xs font-bold text-charcoal bg-black/5 px-2 py-0.5 rounded-full">{downPct}%</span>
+                  </div>
+                </div>
+                <InlineSlider min={5} max={80} step={5} value={downPct} onChange={setDownPct} color="#1A1A1A" />
+                <div className="flex justify-between mt-1 text-[10px] text-charcoal-muted/60">
+                  <span>5%</span><span>80%</span>
+                </div>
+              </div>
+
+              {/* Interest Rate */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs font-semibold text-charcoal-muted">
+                    {t('emi.interest_rate', 'Interest Rate')}
+                  </span>
+                  <span className="text-xs font-bold text-charcoal bg-black/5 px-2 py-0.5 rounded-full">{rate}% p.a.</span>
+                </div>
+                <InlineSlider min={6} max={16} step={0.5} value={rate} onChange={setRate} />
+                <div className="flex justify-between mt-1 text-[10px] text-charcoal-muted/60">
+                  <span>6%</span><span>16%</span>
+                </div>
+                {/* Quick presets */}
+                <div className="flex gap-1.5 mt-2.5 flex-wrap">
+                  {[7.5, 8, 8.5, 9, 9.5].map(r => (
+                    <button key={r} onClick={() => setRate(r)}
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full border transition-all ${rate === r ? 'bg-[#C9A84C] text-[#1A1A1A] border-[#C9A84C]' : 'border-black/10 text-charcoal-muted hover:border-[#C9A84C]/40'}`}>
+                      {r}%
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tenure */}
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs font-semibold text-charcoal-muted">
+                    {t('emi.tenure', 'Loan Tenure')}
+                  </span>
+                  <span className="text-xs font-bold text-charcoal bg-black/5 px-2 py-0.5 rounded-full">{tenure} {t('emi.years', 'yrs')}</span>
+                </div>
+                <InlineSlider min={1} max={30} step={1} value={tenure} onChange={setTenure} color="#1A1A1A" />
+                <div className="flex justify-between mt-1 text-[10px] text-charcoal-muted/60">
+                  <span>1 yr</span><span>30 yrs</span>
+                </div>
+                {/* Quick presets */}
+                <div className="flex gap-1.5 mt-2.5">
+                  {[10, 15, 20, 25, 30].map(y => (
+                    <button key={y} onClick={() => setTenure(y)}
+                      className={`text-[10px] font-bold px-2 py-0.5 rounded-full border transition-all ${tenure === y ? 'bg-[#1A1A1A] text-[#E8D08A] border-[#1A1A1A]' : 'border-black/10 text-charcoal-muted hover:border-black/20'}`}>
+                      {y}Y
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Result */}
+              <div className="bg-[#1A1A1A] rounded-xl p-4 relative overflow-hidden">
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute -top-6 -right-6 w-24 h-24 bg-[#C9A84C]/15 rounded-full blur-2xl" />
+                </div>
+                <div className="relative z-10">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#C9A84C]/70 mb-1">
+                    {t('emi.monthly_emi', 'Monthly EMI')}
+                  </p>
+                  <p className="text-2xl font-sans font-bold text-white">
+                    {fmtLakhs(emi)}
+                  </p>
+                  <div className="mt-3 pt-3 border-t border-white/8 grid grid-cols-2 gap-2 text-[10px]">
+                    <div>
+                      <p className="text-white/40 mb-0.5">{t('emi.principal', 'Principal')}</p>
+                      <p className="text-white/80 font-semibold">{fmtLakhs(loanAmt)}</p>
+                    </div>
+                    <div>
+                      <p className="text-white/40 mb-0.5">{t('emi.total_interest', 'Interest')}</p>
+                      <p className="text-[#E8D08A] font-semibold">{fmtLakhs(totalInt)}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tip */}
+              <div className="flex gap-2 text-[10px] text-charcoal-muted/70 leading-relaxed">
+                <Info size={12} className="text-[#C9A84C] shrink-0 mt-0.5" />
+                {t('emi.tip', 'Estimate only. Actual EMI may vary by lender.')}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -219,8 +415,8 @@ export default function PropertyDetailsPage() {
 
           <div className="md:text-right shrink-0">
             <div className="text-sm font-bold uppercase tracking-widest text-charcoal-muted mb-1">{t('details.asking_price', 'Asking Price')}</div>
-            <div className="text-4xl md:text-5xl font-serif font-medium text-gold flex items-center md:justify-end gap-1">
-              <IndianRupee size={30} strokeWidth={2} /> {property.price}
+            <div className="text-3xl md:text-4xl font-sans font-bold text-[#C9A84C] flex items-center md:justify-end gap-0.5">
+              {property.price}
             </div>
             {property.price_per_sqft && (
               <div className="text-sm text-charcoal-muted mt-1">{property.price_per_sqft}</div>
@@ -480,7 +676,7 @@ export default function PropertyDetailsPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-charcoal-muted">{t('details.asking_price', 'Asking Price')}</span>
-                    <span className="font-bold text-charcoal">₹ {property.price}</span>
+                    <span className="font-bold text-charcoal">{property.price}</span>
                   </div>
                   {property.price_per_sqft && (
                     <div className="flex justify-between text-sm">
@@ -491,7 +687,7 @@ export default function PropertyDetailsPage() {
                   {property.maintenance && (
                     <div className="flex justify-between text-sm">
                       <span className="text-charcoal-muted">{t('details.maintenance', 'Maintenance')}</span>
-                      <span className="font-semibold text-charcoal">₹ {property.maintenance}{t('details.mo', '/mo')}</span>
+                      <span className="font-semibold text-charcoal">{property.maintenance}{t('details.mo', '/mo')}</span>
                     </div>
                   )}
                   {property.is_negotiable && (
@@ -501,6 +697,9 @@ export default function PropertyDetailsPage() {
                   )}
                 </div>
               </div>
+
+              {/* ─── Inline EMI Calculator ─── */}
+              <InlineEMICalculator price={property.price_numeric} t={t} />
             </div>
           </div>
         </div>
