@@ -26,7 +26,7 @@ export default function FAQ() {
     },
     {
       question: t('home.faq_new_q5', 'What if something goes wrong after I buy?'),
-      answer: t('home.faq_new_a5', 'We encourage all buyers to get independent legal verification before finalizing. We show you all available documents upfront. We are not RERA registered currently, and we are transparent about that. Our reputation in Jaipur is built on honest dealings over 19+ years — but we always recommend you do your own due diligence alongside.\n\nWe show documents on Day 1. Independent legal check is always recommended and we support that process.'),
+      answer: t('home.faq_new_a5', 'We encourage all buyers to get independent legal verification before finalizing. We show you all available documents upfront. Our reputation in Jaipur is built on honest dealings over 19+ years — but we always recommend you do your own due diligence alongside.\n\nWe show documents on Day 1. Independent legal check is always recommended and we support that process.'),
     },
     {
       question: t('home.faq_new_q6', 'How long does the whole process take?'),

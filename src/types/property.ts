@@ -52,7 +52,6 @@ export interface Property {
   // ─── Extras ────────────────────────────────────────
   amenities?: string[];
   highlighted_features?: string[];
-  rera_number?: string;
 
   created_at: string;
 }

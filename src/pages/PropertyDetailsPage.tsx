@@ -398,11 +398,6 @@ export default function PropertyDetailsPage() {
                   {property.transaction_type}
                 </span>
               )}
-              {property.rera_number && (
-                <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-1 rounded-full flex items-center gap-1">
-                  <Shield size={10} /> RERA: {property.rera_number}
-                </span>
-              )}
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-charcoal leading-tight">
               {property.title}
