@@ -440,7 +440,6 @@ interface FormData {
   gated_community: boolean;
   amenities: string[];
   highlighted_features: string;
-  rera_number: string;
 }
 
 const EMPTY_FORM: FormData = {
@@ -452,7 +451,7 @@ const EMPTY_FORM: FormData = {
   facing: '', furnishing: 'Unfurnished', parking: 'Covered',
   age_of_property: '', possession_status: 'Ready to Move',
   water_supply: 'Corporation', power_backup: false, gated_community: false,
-  amenities: [], highlighted_features: '', rera_number: '',
+  amenities: [], highlighted_features: '',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -540,7 +539,6 @@ function PropertyModal({ property, onClose, onSave }: {
       gated_community: property.gated_community || false,
       amenities: property.amenities || [],
       highlighted_features: (property.highlighted_features || []).join('\n'),
-      rera_number: property.rera_number || '',
     };
   });
 
@@ -901,11 +899,6 @@ function PropertyModal({ property, onClose, onSave }: {
                     </div>
                   </div>
                 )}
-
-                <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3">
-                  <p className="text-xs font-semibold text-amber-800 mb-1">💡 RERA Tip</p>
-                  <p className="text-xs text-amber-700">For RERA-registered projects, carpet area is the legally mandated unit of measurement.</p>
-                </div>
               </Section>
             )}
 
@@ -938,12 +931,6 @@ function PropertyModal({ property, onClose, onSave }: {
             {/* ── EXTRAS ──────────────────────────────────────────── */}
             {activeSection === 6 && (
               <Section icon={<FileText size={16} />} title="Additional Details">
-                <div>
-                  <Label>RERA Registration Number</Label>
-                  <input value={form.rera_number} onChange={e => set('rera_number')(e.target.value)}
-                    placeholder="e.g. P51800046900" className="form-input" />
-                  <p className="text-xs text-charcoal-muted mt-1">Required for new projects under RERA Act</p>
-                </div>
                 <div>
                   <Label>🌟 Key Highlights (one per line)</Label>
                   <textarea value={form.highlighted_features} onChange={e => set('highlighted_features')(e.target.value)}
@@ -1098,7 +1085,6 @@ export default function AdminPropertiesPage() {
       highlighted_features: form.highlighted_features
         ? form.highlighted_features.split('\n').map(s => s.trim()).filter(Boolean)
         : [],
-      rera_number: form.rera_number || undefined,
       image: primaryUrl,
       gallery: reordered,
     };
