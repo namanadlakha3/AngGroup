@@ -1047,6 +1047,8 @@ export default function AdminPropertiesPage() {
     // Build the full location string
     const locationStr = [form.locality, form.city, form.state].filter(Boolean).join(', ');
 
+    const isPlot = form.type === 'Plot';
+
     const payload: Partial<Property> = {
       title: form.title,
       description: form.description,
@@ -1064,18 +1066,18 @@ export default function AdminPropertiesPage() {
       maintenance: form.maintenance || undefined,
       is_negotiable: form.is_negotiable,
       area: form.super_built_up_area || form.carpet_area || form.plot_area || form.built_up_area || '',
-      super_built_up_area: form.super_built_up_area || undefined,
-      built_up_area: form.built_up_area || undefined,
-      carpet_area: form.carpet_area || undefined,
-      plot_area: form.plot_area || undefined,
-      bedrooms: form.bedrooms,
-      bathrooms: form.bathrooms,
-      balconies: form.balconies,
-      floor_number: form.floor_number ? parseInt(form.floor_number) : undefined,
-      total_floors: form.total_floors ? parseInt(form.total_floors) : undefined,
-      facing: form.facing || undefined,
-      furnishing: form.furnishing,
-      parking: form.parking,
+      super_built_up_area: isPlot ? undefined : (form.super_built_up_area || undefined),
+      built_up_area: isPlot ? undefined : (form.built_up_area || undefined),
+      carpet_area: isPlot ? undefined : (form.carpet_area || undefined),
+      plot_area: isPlot ? (form.plot_area || undefined) : undefined,
+      bedrooms: isPlot ? undefined : form.bedrooms,
+      bathrooms: isPlot ? undefined : form.bathrooms,
+      balconies: isPlot ? undefined : form.balconies,
+      floor_number: isPlot ? undefined : (form.floor_number ? parseInt(form.floor_number) : undefined),
+      total_floors: isPlot ? undefined : (form.total_floors ? parseInt(form.total_floors) : undefined),
+      facing: isPlot ? undefined : (form.facing || undefined),
+      furnishing: isPlot ? undefined : form.furnishing,
+      parking: isPlot ? undefined : form.parking,
       age_of_property: form.age_of_property || undefined,
       possession_status: form.possession_status,
       water_supply: form.water_supply || undefined,
@@ -1224,10 +1226,15 @@ export default function AdminPropertiesPage() {
                                     {property.locality ? `${property.locality}, ` : ''}{property.city || property.location}
                                   </span>
                                 </div>
-                                {property.bedrooms !== undefined && property.bedrooms > 0 && (
+                                {property.type !== 'Plot' && property.bedrooms !== undefined && property.bedrooms > 0 && (
                                   <div className="text-xs text-charcoal-muted mt-0.5">
                                     🛏️ {property.bedrooms} · 🚿 {property.bathrooms}
                                     {property.carpet_area && ` · ${property.carpet_area}`}
+                                  </div>
+                                )}
+                                {property.type === 'Plot' && property.plot_area && (
+                                  <div className="text-xs text-charcoal-muted mt-0.5">
+                                    📐 {property.plot_area}
                                   </div>
                                 )}
                               </div>
