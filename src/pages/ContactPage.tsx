@@ -71,6 +71,39 @@ export default function ContactPage() {
                 </div>
               ))}
             </motion.div>
+
+            {/* Office Map */}
+            <motion.div
+              initial={{ opacity: 0, x: -24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.15 }}
+              className="rounded-2xl overflow-hidden border border-black/8 shadow-sm"
+            >
+              <iframe
+                src="https://maps.google.com/maps?q=Ang+group&ll=26.836062,75.859039&z=17&output=embed"
+                width="100%"
+                height="240"
+                style={{ border: 0, display: 'block' }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="ANG Group Office Location"
+              />
+              <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-black/6">
+                <div className="flex items-center gap-2 text-sm text-charcoal-muted">
+                  <MapPin size={13} className="text-gold shrink-0" />
+                  <span className="text-xs font-medium">Jagatpura, Jaipur, Rajasthan</span>
+                </div>
+                <a
+                  href="https://www.google.com/maps/place/Ang+group/@26.836062,75.859039,17z"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xs font-bold text-gold hover:text-gold-light transition-colors flex items-center gap-1 shrink-0"
+                >
+                  Open in Maps ↗
+                </a>
+              </div>
+            </motion.div>
           </div>
 
           {/* Contact Form */}
