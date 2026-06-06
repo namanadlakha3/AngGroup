@@ -440,6 +440,7 @@ interface FormData {
   gated_community: boolean;
   amenities: string[];
   highlighted_features: string;
+  map_link: string;
 }
 
 const EMPTY_FORM: FormData = {
@@ -452,6 +453,7 @@ const EMPTY_FORM: FormData = {
   age_of_property: '', possession_status: 'Ready to Move',
   water_supply: 'Corporation', power_backup: false, gated_community: false,
   amenities: [], highlighted_features: '',
+  map_link: '',
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -539,6 +541,7 @@ function PropertyModal({ property, onClose, onSave }: {
       gated_community: property.gated_community || false,
       amenities: property.amenities || [],
       highlighted_features: (property.highlighted_features || []).join('\n'),
+      map_link: property.map_link || '',
     };
   });
 
@@ -808,6 +811,24 @@ function PropertyModal({ property, onClose, onSave }: {
                     </p>
                   </div>
                 )}
+
+                {/* Google Maps Link */}
+                <div>
+                  <Label>🗺️ Google Maps Link (Optional)</Label>
+                  <input
+                    value={form.map_link}
+                    onChange={e => set('map_link')(e.target.value)}
+                    placeholder="https://maps.google.com/..."
+                    className="form-input"
+                  />
+                  <p className="text-xs text-charcoal-muted mt-1">Paste the Google Maps share link for this property. A map icon will appear on the listing page.</p>
+                  {form.map_link && (
+                    <a href={form.map_link} target="_blank" rel="noreferrer"
+                      className="inline-flex items-center gap-1.5 mt-2 text-xs font-semibold text-gold hover:underline">
+                      <MapPin size={11} /> Preview link ↗
+                    </a>
+                  )}
+                </div>
               </Section>
             )}
 
@@ -1087,6 +1108,7 @@ export default function AdminPropertiesPage() {
       highlighted_features: form.highlighted_features
         ? form.highlighted_features.split('\n').map(s => s.trim()).filter(Boolean)
         : [],
+      map_link: form.map_link || undefined,
       image: primaryUrl,
       gallery: reordered,
     };

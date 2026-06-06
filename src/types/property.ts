@@ -49,7 +49,10 @@ export interface Property {
   image: string;          // primary image URL
   gallery?: string[];     // all images (first is primary)
 
-  // ─── Extras ────────────────────────────────────────
+  // ─── Location Link ─────────────────────────────────────────────────────────
+  map_link?: string;          // Google Maps URL for the property
+
+  // ─── Extras ────────────────────────────────────────────────────────────────
   amenities?: string[];
   highlighted_features?: string[];
 

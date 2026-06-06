@@ -4,7 +4,7 @@ import {
   MapPin, Bed, Bath, Check, ArrowLeft, Phone,
   MessageCircle, Ruler, IndianRupee, ChevronLeft, ChevronRight,
   X, Shield, Zap, Droplets, Car, Star, Home, Building2,
-  Calendar, Compass, Tag, Sparkles, Calculator, ChevronDown, ChevronUp, Info
+  Calendar, Compass, Tag, Sparkles, Calculator, ChevronDown, ChevronUp, Info, ExternalLink
 } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
 import { supabase } from '../lib/supabase';
@@ -126,6 +126,21 @@ function InlineSlider({ min, max, step, value, onChange, color = '#C9A84C' }: In
         style={{ left: `calc(${pct}% - ${pct * 0.16}px)`, borderColor: color, boxShadow: `0 2px 6px ${color}44` }} />
     </div>
   );
+}
+
+// ─── Price string parser ─────────────────────────────────────────────────────
+// Converts display strings like "₹ 1.5 Cr", "45 L", "₹ 85,00,000" → raw number
+function parsePriceString(raw?: string): number {
+  if (!raw) return 0;
+  const s = raw.replace(/[₹,\s]/g, '').toLowerCase();
+  const crMatch = s.match(/^(\d+(?:\.\d+)?)(cr|crore|c)/);
+  if (crMatch) return parseFloat(crMatch[1]) * 10_000_000;
+  const lMatch = s.match(/^(\d+(?:\.\d+)?)(l|lakh|lakhs|lac|lacs)/);
+  if (lMatch) return parseFloat(lMatch[1]) * 100_000;
+  const kMatch = s.match(/^(\d+(?:\.\d+)?)(k|thousand)/);
+  if (kMatch) return parseFloat(kMatch[1]) * 1_000;
+  const plain = parseFloat(s);
+  return isNaN(plain) ? 0 : plain;
 }
 
 function InlineEMICalculator({ price, t }: { price?: number; t: any }) {
@@ -399,18 +414,29 @@ export default function PropertyDetailsPage() {
                 </span>
               )}
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-charcoal leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-serif font-medium text-charcoal leading-tight">
               {property.title}
             </h1>
-            <div className="flex items-start gap-2 text-charcoal-muted">
-              <MapPin size={18} className="text-gold mt-0.5 shrink-0" />
-              <span className="text-lg font-light">{locationFull}</span>
+            <div className="flex flex-wrap items-center gap-2 text-charcoal-muted">
+              <MapPin size={16} className="text-gold shrink-0" />
+              <span className="text-base font-light leading-snug">{locationFull}</span>
+              {property.map_link && (
+                <a
+                  href={property.map_link}
+                  target="_blank"
+                  rel="noreferrer"
+                  title="View on Google Maps"
+                  className="inline-flex items-center gap-1 text-xs font-bold text-white bg-gold hover:bg-gold-light px-2.5 py-1 rounded-full transition-colors shadow-sm shrink-0"
+                >
+                  <MapPin size={11} /> View Map <ExternalLink size={10} />
+                </a>
+              )}
             </div>
           </div>
 
           <div className="md:text-right shrink-0">
-            <div className="text-sm font-bold uppercase tracking-widest text-charcoal-muted mb-1">{t('details.asking_price', 'Asking Price')}</div>
-            <div className="text-3xl md:text-4xl font-sans font-bold text-[#C9A84C] flex items-center md:justify-end gap-0.5">
+            <div className="text-xs font-bold uppercase tracking-widest text-charcoal-muted mb-1">{t('details.asking_price', 'Asking Price')}</div>
+            <div className="text-2xl md:text-4xl font-sans font-bold text-[#C9A84C] flex items-center md:justify-end gap-0.5">
               {property.price}
             </div>
             {property.price_per_sqft && (
@@ -514,14 +540,14 @@ export default function PropertyDetailsPage() {
             </div>
 
             {/* Description */}
-            <div className="bg-white rounded-2xl border border-black/6 p-7">
-              <h2 className="text-2xl font-serif font-medium text-charcoal mb-4">{t('details.about', 'About this Property')}</h2>
-              <p className="text-charcoal-muted leading-relaxed text-base font-light whitespace-pre-line">{property.description}</p>
+            <div className="bg-white rounded-2xl border border-black/6 p-5 md:p-7">
+              <h2 className="text-xl md:text-2xl font-serif font-medium text-charcoal mb-4">{t('details.about', 'About this Property')}</h2>
+              <p className="text-charcoal-muted leading-relaxed text-sm md:text-base font-light whitespace-pre-line">{property.description}</p>
             </div>
 
             {/* Property Specifications */}
-            <div className="bg-white rounded-2xl border border-black/6 p-7">
-              <h2 className="text-2xl font-serif font-medium text-charcoal mb-5">{t('details.prop_details', 'Property Details')}</h2>
+            <div className="bg-white rounded-2xl border border-black/6 p-5 md:p-7">
+              <h2 className="text-xl md:text-2xl font-serif font-medium text-charcoal mb-5">{t('details.prop_details', 'Property Details')}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8">
                 <div>
                   <SpecRow icon={<Building2 size={14} />} label={t('details.type', 'Property Type')} value={`${typeEmoji} ${property.type}`} t={t} />
@@ -549,9 +575,9 @@ export default function PropertyDetailsPage() {
 
             {/* Amenities */}
             {property.amenities && property.amenities.length > 0 && (
-              <div className="bg-white rounded-2xl border border-black/6 p-7">
-                <h2 className="text-2xl font-serif font-medium text-charcoal mb-6">
-                  {t('details.amenities', 'Amenities')} <span className="text-base font-sans font-normal text-charcoal-muted">({property.amenities.length})</span>
+              <div className="bg-white rounded-2xl border border-black/6 p-5 md:p-7">
+                <h2 className="text-xl md:text-2xl font-serif font-medium text-charcoal mb-5">
+                  {t('details.amenities', 'Amenities')} <span className="text-sm md:text-base font-sans font-normal text-charcoal-muted">({property.amenities.length})</span>
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {property.amenities.map(amenity => (
@@ -563,6 +589,12 @@ export default function PropertyDetailsPage() {
                 </div>
               </div>
             )}
+
+            {/* ─── EMI Calculator ─── */}
+            <InlineEMICalculator
+              price={property.price_numeric ?? parsePriceString(property.price)}
+              t={t}
+            />
           </div>
 
           {/* Sidebar */}
@@ -660,6 +692,66 @@ export default function PropertyDetailsPage() {
                   <p className="text-sm text-charcoal-muted leading-relaxed">
                     {[property.locality, property.city, property.state, property.pincode].filter(Boolean).join(', ')}
                   </p>
+                  {property.map_link && (() => {
+                      /**
+                       * Convert any Google Maps share URL into an embeddable src.
+                       * Strategy:
+                       *  1. If it already contains output=embed → use as-is.
+                       *  2. For /maps/place/PLACE/@lat,lng,zoom → build
+                       *     maps.google.com/maps?q=PLACE&ll=lat,lng&z=zoom&output=embed
+                       *  3. Fallback: append &output=embed to whatever URL we have.
+                       */
+                      let embedSrc = '';
+                      try {
+                        const raw = property.map_link!;
+
+                        // Already an embed URL
+                        if (raw.includes('output=embed')) {
+                          embedSrc = raw;
+                        } else {
+                          // Try to extract place name, lat, lng, zoom from /place/NAME/@lat,lng,zoom
+                          const placeMatch = raw.match(/\/maps\/place\/([^/]+)\/@(-?\d+\.\d+),(-?\d+\.\d+),(\d+)/);
+                          if (placeMatch) {
+                            const [, place, lat, lng, zoom] = placeMatch;
+                            const q = decodeURIComponent(place.replace(/\+/g, ' '));
+                            embedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(q)}&ll=${lat},${lng}&z=${zoom}&output=embed`;
+                          } else {
+                            // Generic fallback — just add output=embed
+                            const url = new URL(raw);
+                            url.searchParams.set('output', 'embed');
+                            embedSrc = url.toString();
+                          }
+                        }
+                      } catch {
+                        embedSrc = property.map_link!;
+                      }
+
+                      return (
+                        <>
+                          <div className="mt-3 rounded-xl overflow-hidden border border-black/6 shadow-sm" style={{ height: 220 }}>
+                            <iframe
+                              src={embedSrc}
+                              width="100%"
+                              height="220"
+                              style={{ border: 0 }}
+                              allowFullScreen
+                              loading="lazy"
+                              referrerPolicy="no-referrer-when-downgrade"
+                              title="Property Location"
+                            />
+                          </div>
+                          <a
+                            href={property.map_link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1.5 mt-3 text-xs font-bold text-gold hover:text-gold-light transition-colors"
+                          >
+                            <ExternalLink size={12} /> Open in Google Maps
+                          </a>
+                        </>
+                      );
+                    })()
+                  }
                 </div>
               )}
 
@@ -692,9 +784,6 @@ export default function PropertyDetailsPage() {
                   )}
                 </div>
               </div>
-
-              {/* ─── Inline EMI Calculator ─── */}
-              <InlineEMICalculator price={property.price_numeric} t={t} />
             </div>
           </div>
         </div>
