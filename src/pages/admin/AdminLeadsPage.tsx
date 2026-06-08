@@ -14,6 +14,7 @@ interface Lead {
   id: string;
   property_id: string | null;
   property_title: string | null;
+  properties?: { title: string } | null;
   name: string;
   phone: string;
   email: string | null;
@@ -75,6 +76,8 @@ function LeadCard({ lead, onStatusChange, onDelete }: {
     hour: '2-digit', minute: '2-digit',
   });
 
+  const displayTitle = lead.properties?.title || lead.property_title;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -93,10 +96,16 @@ function LeadCard({ lead, onStatusChange, onDelete }: {
               {cfg.label}
             </span>
           </div>
-          {lead.property_title && (
+          {displayTitle && (
             <div className="flex items-center gap-1.5 text-xs text-charcoal-muted">
               <Building2 size={11} className="text-gold shrink-0" />
-              <span className="truncate">{lead.property_title}</span>
+              {lead.property_id ? (
+                <a href={`/properties/${lead.property_id}`} target="_blank" rel="noopener noreferrer" className="truncate hover:text-gold transition-colors hover:underline">
+                  {displayTitle}
+                </a>
+              ) : (
+                <span className="truncate">{displayTitle}</span>
+              )}
             </div>
           )}
         </div>
@@ -203,7 +212,7 @@ export default function AdminLeadsPage() {
     setIsLoading(true);
     const { data, error } = await supabase
       .from('leads')
-      .select('*')
+      .select('*, properties(title)')
       .order('created_at', { ascending: false });
     if (!error && data) setLeads(data as Lead[]);
     setIsLoading(false);
@@ -227,11 +236,12 @@ export default function AdminLeadsPage() {
 
   const filtered = leads.filter(l => {
     const q = search.toLowerCase();
+    const displayTitle = l.properties?.title || l.property_title || '';
     const matchSearch = !q ||
       l.name.toLowerCase().includes(q) ||
       l.phone.includes(q) ||
       (l.email || '').toLowerCase().includes(q) ||
-      (l.property_title || '').toLowerCase().includes(q);
+      displayTitle.toLowerCase().includes(q);
     const matchStatus = statusFilter === 'all' || l.status === statusFilter;
     return matchSearch && matchStatus;
   });
@@ -275,17 +285,17 @@ export default function AdminLeadsPage() {
         </div>
 
         {/* Search */}
-        <div className="relative">
-          <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-charcoal-muted" />
+        <div className="search-wrap">
+          <Search size={14} className="search-icon" />
           <input
             type="text"
             placeholder="Search by name, phone, email or property…"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="form-input pl-9 text-sm"
+            className="form-input text-sm"
           />
           {search && (
-            <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-muted hover:text-charcoal">
+            <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-muted hover:text-charcoal z-10">
               <X size={14} />
             </button>
           )}
