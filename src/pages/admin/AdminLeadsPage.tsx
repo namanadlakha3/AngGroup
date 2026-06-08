@@ -3,7 +3,8 @@ import { supabase } from '../../lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Phone, Mail, MessageCircle, Clock, Search, X,
-  Check, Trash2, Building2, ChevronDown, Loader2, AlertCircle, RefreshCw
+  Check, Trash2, Building2, ChevronDown, Loader2, AlertCircle, RefreshCw,
+  Download
 } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -253,6 +254,49 @@ export default function AdminLeadsPage() {
     closed: leads.filter(l => l.status === 'closed').length,
   };
 
+  const exportToCSV = () => {
+    if (filtered.length === 0) {
+      addToast('No leads to export', 'error');
+      return;
+    }
+
+    const escapeCsv = (str: string | null | undefined) => {
+      if (!str) return '""';
+      const safeStr = str.replace(/"/g, '""');
+      return `"${safeStr}"`;
+    };
+
+    const headers = ['Date', 'Status', 'Name', 'Phone', 'Email', 'Property', 'Message'];
+    
+    const rows = filtered.map(l => {
+      const date = new Date(l.created_at).toLocaleString('en-IN');
+      const status = STATUS_CONFIG[l.status].label;
+      const property = l.properties?.title || l.property_title || '';
+      return [
+        escapeCsv(date),
+        escapeCsv(status),
+        escapeCsv(l.name),
+        escapeCsv(l.phone),
+        escapeCsv(l.email),
+        escapeCsv(property),
+        escapeCsv(l.message)
+      ].join(',');
+    });
+
+    const csvContent = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `Leads_Export_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    
+    addToast('Leads exported successfully');
+  };
+
   return (
     <>
       <ToastContainer toasts={toasts} remove={id => setToasts(t => t.filter(x => x.id !== id))} />
@@ -275,13 +319,22 @@ export default function AdminLeadsPage() {
               </span>
             </button>
           ))}
-          <button
-            onClick={fetchLeads}
-            className="ml-auto flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold text-charcoal-muted border border-gray-100 hover:border-gray-200 hover:text-charcoal transition-all"
-          >
-            <RefreshCw size={12} className={isLoading ? 'animate-spin' : ''} />
-            Refresh
-          </button>
+          <div className="ml-auto flex items-center gap-2">
+            <button
+              onClick={exportToCSV}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold text-charcoal-muted border border-gray-100 hover:border-gray-200 hover:text-charcoal transition-all"
+            >
+              <Download size={12} />
+              Export
+            </button>
+            <button
+              onClick={fetchLeads}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold text-charcoal-muted border border-gray-100 hover:border-gray-200 hover:text-charcoal transition-all"
+            >
+              <RefreshCw size={12} className={isLoading ? 'animate-spin' : ''} />
+              Refresh
+            </button>
+          </div>
         </div>
 
         {/* Search */}
